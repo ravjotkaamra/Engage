@@ -1,0 +1,7 @@
+POST http://localhost:3001/rtctoken
+Content-Type: application/json
+
+{
+  "channel": "testing-agora",
+  "isPublisher": true
+}
