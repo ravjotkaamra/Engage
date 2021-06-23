@@ -3,7 +3,9 @@ import React, { useEffect } from 'react';
 
 const Video = (props) => {
   useEffect(() => {
-    props.videoTrack.play(props.id);
+    if (props.videoTrack && props.videoTrack.play) {
+      props.videoTrack.play(props.id);
+    }
   }, [props.id, props.videoTrack]);
 
   return (

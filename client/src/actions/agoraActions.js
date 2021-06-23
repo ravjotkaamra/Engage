@@ -25,9 +25,9 @@ export const getPostsSuccess = (posts) => ({
   payload: posts,
 });
 
-export const newLocalClient = (localClient, uid) => ({
+export const newLocalClient = (localClient) => ({
   type: NEW_LOCAL_CLIENT,
-  payload: { localClient, uid },
+  payload: localClient,
 });
 
 export const newRemoteClient = (remoteClient, uid) => ({
@@ -40,12 +40,12 @@ export const removeRemoteClient = (uid) => ({
   payload: uid,
 });
 
-export const setOptions = (uid, token, channelName) => ({
+export const setOptions = (uid, token, channel) => ({
   type: SET_OPTIONS,
   payload: {
     uid,
     token,
-    channelName,
+    channel,
   },
 });
 
@@ -81,7 +81,59 @@ export const getPostsFailure = () => ({
   type: GET_POSTS_FAILURE,
 });
 
-export function startVideoCall(channelName) {
+export function handleJoin() {
+  return async (dispatch, getState) => {
+    // Join an RTC channel.
+    const localClient = getState().agora.localClient.client;
+    const options = getState().agora.options;
+    await localClient.join(
+      options.appId,
+      options.channel,
+      options.token,
+      options.uid
+    );
+    // Create a local audio track from the audio sampled by a microphone.
+    const localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
+    dispatch(setLocalAudioTrack(localAudioTrack));
+    // Create a local video track from the video captured by a camera.
+    const localVideoTrack = await AgoraRTC.createCameraVideoTrack();
+    dispatch(setLocalVideoTrack(localVideoTrack));
+    // Publish the local audio and video tracks to the RTC channel.
+    await localClient.publish([localAudioTrack, localVideoTrack]);
+    // Dynamically create a container in the form of a DIV element for playing the local video track.
+    // const localPlayerContainer = document.createElement('div');
+    // // Specify the ID of the DIV container. You can use the uid of the local user.
+    // localPlayerContainer.id = options.uid.toString();
+    // localPlayerContainer.textContent = 'Local user ' + options.uid;
+    // localPlayerContainer.style.width = '640px';
+    // localPlayerContainer.style.height = '480px';
+    // document.body.append(localPlayerContainer);
+
+    // Play the local video track.
+    // Pass the DIV container and the SDK dynamically creates a player in the container for playing the local video track.
+    // rtc.localVideoTrack.play(localPlayerContainer);
+    // rtc.localVideoTrack.play('123');
+    console.log('publish success! >>> ', localAudioTrack, localVideoTrack);
+  };
+}
+
+export function handleLeave() {
+  return async (dispatch, getState) => {
+    // Destroy the local audio and video tracks.
+    console.log('getState().agora :>> ', getState().agora);
+    const localClient = getState().agora.localClient;
+    console.log('localClient :>> ', localClient);
+    localClient.audio.close();
+    localClient.video.close();
+    dispatch(setLocalAudioTrack(null));
+    dispatch(setLocalVideoTrack(null));
+
+    // Leave the channel.
+    await localClient.client.leave();
+  };
+}
+// Combine them all in an asynchronous thunk
+export function startVideoCall(channel) {
   return async (dispatch) => {
     // Create an AgoraRTCClient object and update the store
     const localClient = AgoraRTC.createClient({ mode: 'rtc', codec: 'vp8' });
@@ -92,15 +144,15 @@ export function startVideoCall(channelName) {
       // for fetching the token from backend api
       // 'http://localhost:3001/api/rtctoken'
       dispatch(setAgoraLoading());
-      const { uid, token } = await agoraServices.fetchAgoraToken(channelName);
-      dispatch(setOptions(uid.toString(), token, channelName));
-      console.log('channel-name :>> ', channelName);
+      const { uid, token } = await agoraServices.fetchAgoraToken(channel);
+      dispatch(setOptions(uid, token, channel));
+      console.log('channel-name :>> ', channel);
       console.log('user-id :>> ', uid);
       console.log('token :>> ', token);
 
       // Listen for the "user-published" event, from which you can get an AgoraRTCRemoteUser object.
       localClient.on('user-published', async (remoteClient, mediaType) => {
-        dispatch(newRemoteClient(remoteClient));
+        dispatch(newRemoteClient(remoteClient, remoteClient.uid));
 
         // Subscribe to the remote user when the SDK triggers the "user-published" event
         await localClient.subscribe(remoteClient, mediaType);
@@ -118,7 +170,9 @@ export function startVideoCall(channelName) {
           // document.body.append(remotePlayerContainer);
 
           // Get the RemoteVideoTrack object in the AgoraRTCRemoteUser object.
-          dispatch(setRemoteVideoTrack(remoteClient.videoTrack));
+          dispatch(
+            setRemoteVideoTrack(remoteClient.videoTrack, remoteClient.uid)
+          );
 
           // Play the remote video track.
           // Pass the DIV container and the SDK dynamically creates a player in the container for playing the remote video track.
@@ -131,7 +185,9 @@ export function startVideoCall(channelName) {
         // If the remote user publishes an audio track.
         if (mediaType === 'audio') {
           // Get the RemoteAudioTrack object in the AgoraRTCRemoteUser object.
-          dispatch(setRemoteAudioTrack(remoteClient.audioTrack));
+          dispatch(
+            setRemoteAudioTrack(remoteClient.audioTrack, remoteClient.uid)
+          );
           // rtc.remoteAudioTrack = remoteClient.audioTrack;
           // Play the remote audio track. No need to pass any DOM element.
           // rtc.remoteAudioTrack.play();
@@ -154,24 +210,6 @@ export function startVideoCall(channelName) {
       });
     } catch (error) {
       console.log('error getting token from Agora :>> ', error);
-    }
-  };
-}
-
-// Combine them all in an asynchronous thunk
-export function fetchPosts() {
-  return async (dispatch) => {
-    dispatch(getPosts());
-
-    try {
-      const response = await fetch(
-        'https://jsonplaceholder.typicode.com/posts'
-      );
-      const data = await response.json();
-
-      dispatch(getPostsSuccess(data));
-    } catch (error) {
-      dispatch(getPostsFailure());
     }
   };
 }

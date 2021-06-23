@@ -4,16 +4,16 @@ const initialState = {
   // agora authorization options to join a channel
   options: {
     appId: process.env.REACT_APP_AGORA_APP_ID,
-    channelName: '',
+    channel: '',
     token: null,
-    uid: '',
+    uid: null,
   },
 
   // AgoraRTCClient object for joining a channel,
   // publishing localMedia, subscribing remoteMedia
   // and media objects for storing audio and video
   // of local user and remote users
-  localClient: { uid: '', client: null, video: null, audio: null },
+  localClient: { client: null, video: null, audio: null },
   remoteClients: [],
 
   // for handling ui/ux of app
@@ -28,8 +28,7 @@ const agoraReducer = (state = initialState, action) => {
         ...state,
         localClient: {
           ...state.localClient,
-          client: action.payload.client,
-          uid: action.payload,
+          client: action.payload,
         },
         hasErrors: false,
         loading: false,
@@ -51,10 +50,10 @@ const agoraReducer = (state = initialState, action) => {
       return { ...state, remoteClients: filteredClients };
     }
     case actions.SET_OPTIONS: {
-      const { uid, token, channelName } = action.payload;
+      const { uid, token, channel } = action.payload;
       return {
         ...state,
-        options: { ...state.options, uid, token, channelName },
+        options: { ...state.options, uid, token, channel },
         hasErrors: false,
         loading: false,
       };

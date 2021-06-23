@@ -1,17 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import Video from './components/Video';
+import React, { useEffect } from 'react';
 import { Button, Box, Container, ButtonGroup, Heading } from '@chakra-ui/react';
 import { PhoneIcon, CloseIcon } from '@chakra-ui/icons';
-import agoraHelpers from './helpers/agora';
+import VideoConference from './components/VideoConference';
+import {
+  handleJoin,
+  handleLeave,
+  startVideoCall,
+} from './actions/agoraActions';
+import { useDispatch } from 'react-redux';
 
 const App = () => {
-  const [rtc, setRtc] = useState({});
-  const [options, setOptions] = useState({});
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    agoraHelpers.startVideoCall(setOptions);
-  }, []);
-  console.log('options :>> ', options);
+    dispatch(startVideoCall('test'));
+  }, [dispatch]);
+
   return (
     <Container maxW="xl" centerContent>
       <Heading
@@ -25,7 +29,7 @@ const App = () => {
       <Box className="join">
         <ButtonGroup size={'lg'}>
           <Button
-            onClick={() => agoraHelpers.handleJoin(setRtc)}
+            onClick={() => dispatch(handleJoin())}
             leftIcon={<PhoneIcon w={5} h={4} />}
             colorScheme="pink"
             variant="solid"
@@ -33,7 +37,7 @@ const App = () => {
             NEW MEETING
           </Button>
           <Button
-            onClick={agoraHelpers.handleLeave}
+            onClick={() => dispatch(handleLeave())}
             rightIcon={<CloseIcon w={5} h={3} />}
             colorScheme="pink"
             variant="outline"
@@ -42,13 +46,8 @@ const App = () => {
           </Button>
         </ButtonGroup>
       </Box>
-      {rtc.localVideoTrack && (
-        <Video
-          videoTrack={rtc.localVideoTrack}
-          name="Lindsey James"
-          id={options.uid.toString()}
-        />
-      )}
+
+      <VideoConference />
     </Container>
   );
 };
