@@ -1,25 +1,55 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import Video from './components/Video';
+import { Button, Box, Container, ButtonGroup, Heading } from '@chakra-ui/react';
+import { PhoneIcon, CloseIcon } from '@chakra-ui/icons';
 import agoraHelpers from './helpers/agora';
 
 const App = () => {
-  useEffect(() => {
-    agoraHelpers.startVideoCall();
-  }, []);
+  const [rtc, setRtc] = useState({});
+  const [options, setOptions] = useState({});
 
+  useEffect(() => {
+    agoraHelpers.startVideoCall(setOptions);
+  }, []);
+  console.log('options :>> ', options);
   return (
-    <div>
-      <h2 className="left-align">Agora Video Web SDK Quickstart</h2>
-      <div className="row">
-        <div>
-          <button type="button" id="join" onClick={agoraHelpers.handleJoin}>
-            JOIN
-          </button>
-          <button type="button" id="leave" onClick={agoraHelpers.handleLeave}>
+    <Container maxW="xl" centerContent>
+      <Heading
+        bgGradient="linear(to-l, #7928CA,#FF0080)"
+        bgClip="text"
+        fontSize="6xl"
+        fontWeight="extrabold"
+      >
+        Video Chat
+      </Heading>
+      <Box className="join">
+        <ButtonGroup size={'lg'}>
+          <Button
+            onClick={() => agoraHelpers.handleJoin(setRtc)}
+            leftIcon={<PhoneIcon w={5} h={4} />}
+            colorScheme="pink"
+            variant="solid"
+          >
+            NEW MEETING
+          </Button>
+          <Button
+            onClick={agoraHelpers.handleLeave}
+            rightIcon={<CloseIcon w={5} h={3} />}
+            colorScheme="pink"
+            variant="outline"
+          >
             LEAVE
-          </button>
-        </div>
-      </div>
-    </div>
+          </Button>
+        </ButtonGroup>
+      </Box>
+      {rtc.localVideoTrack && (
+        <Video
+          videoTrack={rtc.localVideoTrack}
+          name="Lindsey James"
+          id={options.uid.toString()}
+        />
+      )}
+    </Container>
   );
 };
 export default App;
