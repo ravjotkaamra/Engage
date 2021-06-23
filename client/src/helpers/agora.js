@@ -27,7 +27,7 @@ export const options = {
 const setAgoraToken = async () => {
   try {
     // fetch the token from api-endpoint
-    const { uid, token } = await agoraServices.createToken(
+    const { uid, token } = await agoraServices.fetchAgoraToken(
       options.channel,
       true
     );

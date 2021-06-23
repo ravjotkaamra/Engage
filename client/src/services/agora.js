@@ -1,7 +1,7 @@
 import axios from 'axios';
 const baseUrl = 'http://localhost:3001/api/rtctoken';
 
-const createToken = async (channel, isPublisher = true) => {
+const fetchAgoraToken = async (channel, isPublisher = true) => {
   const body = {
     channel,
     isPublisher,
@@ -10,5 +10,5 @@ const createToken = async (channel, isPublisher = true) => {
   return response.data;
 };
 
-const services = { createToken };
+const services = { fetchAgoraToken };
 export default services;
