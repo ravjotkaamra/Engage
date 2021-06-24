@@ -5,12 +5,7 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { extendTheme } from '@chakra-ui/react';
 import '@fontsource/raleway/400.css';
 import '@fontsource/open-sans/700.css';
-
-// redux store for storing the state
-// of react web application
-import store from './store';
-// for sharing the state globally
-import { Provider } from 'react-redux';
+import './index.css';
 
 const theme = extendTheme({
   fonts: {
@@ -19,10 +14,8 @@ const theme = extendTheme({
   },
 });
 ReactDOM.render(
-  <Provider store={store}>
-    <ChakraProvider theme={theme}>
-      <App />
-    </ChakraProvider>
-  </Provider>,
+  <ChakraProvider theme={theme}>
+    <App />
+  </ChakraProvider>,
   document.getElementById('root')
 );
