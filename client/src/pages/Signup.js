@@ -18,36 +18,45 @@ import {
 } from '@chakra-ui/react';
 import { FaGoogle } from 'react-icons/fa';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
-import { signin, signInWithGoogle } from '../helpers/auth';
 import { useState } from 'react';
+import { signInWithGoogle, signup } from '../helpers/auth';
 
 export default function Login() {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(null);
 
-  // if the user submits the login form
+  // if the user submits the signUp form
   const handleSubmit = async (event) => {
     event.preventDefault();
     setError('');
+
+    const name = `${firstName} ${lastName}`;
     try {
-      const userCredential = await signin(email, password);
-      console.log('userCredential :>> ', userCredential);
+      const userCredential = await signup(email, password);
+      // update the display name of the user
+      await userCredential.user.updateProfile({
+        displayName: name,
+      });
+
       setEmail('');
       setPassword('');
+      setFirstName('');
+      setLastName('');
     } catch (err) {
       setError(err.message);
-      console.log('error :>> ', error);
+      console.log('trouble signing up :>> ', error);
     }
   };
 
-  // if the user clicks the signin with google button
   const googleSignIn = async () => {
     try {
       await signInWithGoogle();
     } catch (error) {
-      this.setState({ error: error.message });
+      setError(error.message);
     }
   };
 
@@ -60,11 +69,11 @@ export default function Login() {
     >
       <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
         <Stack align={'center'}>
-          <Heading fontSize={'4xl'}>Sign in to your account</Heading>
+          <Heading fontSize={'4xl'}>Create a new account</Heading>
           <Text fontSize={'lg'} color={'gray.600'}>
-            Don't have an account{' '}
-            <Link as={ReachLink} to="/signup" color={'blue.400'}>
-              signup
+            Already have an account{' '}
+            <Link as={ReachLink} to="/login" color={'blue.400'}>
+              login
             </Link>
           </Text>
         </Stack>
@@ -76,12 +85,38 @@ export default function Login() {
         >
           <form onSubmit={handleSubmit}>
             <Stack spacing={4}>
+              <Stack
+                direction={{ base: 'column', sm: 'row' }}
+                align={'start'}
+                justify={'space-between'}
+              >
+                <FormControl id="first-name">
+                  <FormLabel>First Name</FormLabel>
+                  <Input
+                    type="text"
+                    value={firstName}
+                    placeholder="John"
+                    required
+                    onChange={(e) => setFirstName(e.target.value)}
+                  />
+                </FormControl>
+                <FormControl id="last-name">
+                  <FormLabel>Last Name</FormLabel>
+                  <Input
+                    type="text"
+                    value={lastName}
+                    placeholder="Doe (optional)"
+                    onChange={(e) => setLastName(e.target.value)}
+                  />
+                </FormControl>
+              </Stack>
               <FormControl id="email">
                 <FormLabel>Email address</FormLabel>
                 <Input
                   type="email"
                   value={email}
                   required
+                  placeholder="johndoe@microsoft.com"
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </FormControl>
@@ -93,6 +128,7 @@ export default function Login() {
                     value={password}
                     required
                     minLength="6"
+                    placeholder="Must have atleast 6 characters"
                     onChange={(e) => setPassword(e.target.value)}
                   />
                   <InputRightElement>
@@ -124,7 +160,7 @@ export default function Login() {
                       bg: 'blue.500',
                     }}
                   >
-                    Sign in
+                    Sign up
                   </Button>
                   <Text fontSize={'md'} color={'gray.600'} align={'center'}>
                     OR
@@ -138,7 +174,7 @@ export default function Login() {
                     }}
                     onClick={googleSignIn}
                   >
-                    Sign in with Google
+                    Sign up with Google
                   </Button>
                 </Stack>
               </Stack>

@@ -3,6 +3,7 @@ import PublicRoute from './components/PublicRoute';
 import PrivateRoute from './components/PrivateRoute';
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
 import Login from './pages/Login';
+import Signup from './pages/Signup';
 import Meeting from './pages/Meeting';
 // <Container maxW="xl" centerContent>
 //   <Heading
@@ -48,6 +49,9 @@ const App = () => {
         </PrivateRoute>
         <PublicRoute path="/login" authenticated={authenticated}>
           <Login />
+        </PublicRoute>
+        <PublicRoute path="/signup" authenticated={authenticated}>
+          <Signup />
         </PublicRoute>
       </Switch>
     </Router>
