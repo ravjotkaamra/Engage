@@ -10,6 +10,8 @@ const ChannelForm = ({ setInCall, setChannelName }) => {
   return (
     <form className="join" onSubmit={handleSubmit}>
       <Input
+        isRequired
+        colorScheme="pink"
         type="text"
         placeholder="Enter Channel Name"
         onChange={(e) => setChannelName(e.target.value)}

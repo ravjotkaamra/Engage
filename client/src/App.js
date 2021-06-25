@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
-import { Box, Heading, Container } from '@chakra-ui/layout';
-import ChannelForm from './components/ChannelForm';
-import VideoCall from './components/VideoCall';
+import React from 'react';
+import PublicRoute from './components/PublicRoute';
+import PrivateRoute from './components/PrivateRoute';
+import { BrowserRouter as Router, Switch } from 'react-router-dom';
+import Login from './pages/Login';
+import Meeting from './pages/Meeting';
 // <Container maxW="xl" centerContent>
 //   <Heading
 //     bgGradient="linear(to-l, #7928CA,#FF0080)"
@@ -36,27 +38,19 @@ import VideoCall from './components/VideoCall';
 // </Container>;
 
 const App = () => {
-  const [inCall, setInCall] = useState(false);
-  const [channelName, setChannelName] = useState('');
+  const authenticated = false;
 
   return (
-    <Container maxW="xl" centerContent>
-      <Box>
-        <Heading
-          bgGradient="linear(to-l, #7928CA,#FF0080)"
-          bgClip="text"
-          fontSize="6xl"
-          fontWeight="extrabold"
-        >
-          Video Chat
-        </Heading>
-        {inCall ? (
-          <VideoCall setInCall={setInCall} channelName={channelName} />
-        ) : (
-          <ChannelForm setInCall={setInCall} setChannelName={setChannelName} />
-        )}
-      </Box>
-    </Container>
+    <Router>
+      <Switch>
+        <PrivateRoute path="/meet" authenticated={authenticated}>
+          <Meeting />
+        </PrivateRoute>
+        <PublicRoute path="/login" authenticated={authenticated}>
+          <Login />
+        </PublicRoute>
+      </Switch>
+    </Router>
   );
 };
 
