@@ -4,6 +4,7 @@ import firebase from 'firebase/app';
 import store from './store';
 import { Provider } from 'react-redux';
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase';
+import { createFirestoreInstance } from 'redux-firestore';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 import App from './App';
@@ -28,7 +29,7 @@ const rrfProps = {
   firebase,
   config: rrfConfig,
   dispatch: store.dispatch,
-  // createFirestoreInstance // <- needed if using firestore
+  createFirestoreInstance, // <- needed if using firestore
 };
 
 ReactDOM.render(

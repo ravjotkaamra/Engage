@@ -16,5 +16,4 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 // Initialize other services on firebase instance
-export const auth = firebase.auth;
-export const db = firebase.firestore();
+firebase.firestore();

@@ -1,4 +1,4 @@
-import * as actions from '../actions/noitifyActions';
+import * as actions from '../actions/notifyActions';
 
 const initialState = { message: null, type: '' };
 

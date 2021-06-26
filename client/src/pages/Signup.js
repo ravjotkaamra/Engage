@@ -1,5 +1,5 @@
-import { useFirebase } from 'react-redux-firebase';
-import { Link as ReachLink, useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { Link as ReachLink } from 'react-router-dom';
 import {
   Flex,
   Box,
@@ -20,7 +20,8 @@ import {
 import { FaGoogle } from 'react-icons/fa';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { useState } from 'react';
-import { signInWithGoogle, signup } from '../helpers/auth';
+import { signup } from '../actions/authentication/signupActions';
+import { signInWithGoogle } from '../actions/authentication/oauthAction';
 
 export default function Login() {
   const [firstName, setFirstName] = useState('');
@@ -29,21 +30,14 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
-  // firebase object from useFirebase hook
-  const firebase = useFirebase();
-  const history = useHistory();
+  const dispatch = useDispatch();
 
   // if the user submits the signUp form
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     const name = `${firstName} ${lastName}`;
     try {
-      const userCredential = await signup(email, password);
-      // update the display name of the user
-      await userCredential.user.updateProfile({
-        displayName: name,
-      });
-
+      dispatch(signup(email, password, name));
       setEmail('');
       setPassword('');
       setFirstName('');
@@ -54,13 +48,8 @@ export default function Login() {
   };
 
   // if the user clicks the signup with google button
-  const googleSignIn = async () => {
-    try {
-      await signInWithGoogle(firebase);
-      history.push('/meet');
-    } catch (err) {
-      console.log('trouble signing up with google :>> ', err);
-    }
+  const googleSignUp = () => {
+    dispatch(signInWithGoogle());
   };
 
   return (
@@ -175,7 +164,7 @@ export default function Login() {
                     _hover={{
                       bg: 'red.500',
                     }}
-                    onClick={googleSignIn}
+                    onClick={googleSignUp}
                   >
                     Sign up with Google
                   </Button>

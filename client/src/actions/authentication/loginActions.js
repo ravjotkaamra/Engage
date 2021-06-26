@@ -1,20 +1,27 @@
-import { setNotification } from './noitifyActions';
+import { setNotification } from '../notifyActions';
 
 export const login = (email, password) => {
   return async (dispatch, getState, getFirebase) => {
     const firebase = getFirebase();
     try {
+      // use firebase object to login with email and password
+      console.log('firebase :>> ', firebase.login);
+      console.log('typeof(firebase) :>> ', typeof(firebase));
       const userCredential = await firebase.login({ email, password });
-      // set a notification for 5 seconds
-      setNotification(
-        {
-          message: `Welcome ${firebase.auth.displayName}`,
-          type: 'success',
-        },
-        5000
-      );
+      const notification = {
+        message: `Welcome ${userCredential.user.user.displayName}!`,
+        type: 'success',
+        timeout: 5000,
+      };
+      dispatch(setNotification(notification));
       console.log('user information: >>', userCredential);
     } catch (error) {
+      const notification = {
+        message: 'Wrong Email or Password',
+        type: 'failure',
+        timeout: 5000,
+      };
+      dispatch(setNotification(notification));
       console.log('trouble signing in', error);
     }
   };
