@@ -1,4 +1,6 @@
-import { Link as ReachLink } from 'react-router-dom';
+import { useFirebase } from 'react-redux-firebase';
+import { useDispatch } from 'react-redux';
+import { Link as ReachLink, useHistory } from 'react-router-dom';
 import {
   Flex,
   Box,
@@ -20,34 +22,39 @@ import { FaGoogle } from 'react-icons/fa';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { signin, signInWithGoogle } from '../helpers/auth';
 import { useState } from 'react';
+import { login } from '../actions/authActions';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState(null);
+
+  // firebase object from useFirebase hook
+  const firebase = useFirebase();
+  const history = useHistory();
+  const dispatch = useDispatch();
 
   // if the user submits the login form
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setError('');
     try {
-      const userCredential = await signin(email, password);
-      console.log('userCredential :>> ', userCredential);
+      // const userCredential = await signin(email, password);
+      // console.log('userCredential :>> ', userCredential);
+      dispatch(login(email, password));
       setEmail('');
       setPassword('');
     } catch (err) {
-      setError(err.message);
-      console.log('error :>> ', error);
+      console.log('error signing in :>> ', err);
     }
   };
 
   // if the user clicks the signin with google button
   const googleSignIn = async () => {
     try {
-      await signInWithGoogle();
-    } catch (error) {
-      this.setState({ error: error.message });
+      await signInWithGoogle(firebase);
+      history.push('/meet');
+    } catch (err) {
+      console.log('error signing in with google:>> ', err);
     }
   };
 

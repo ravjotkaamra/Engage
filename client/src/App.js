@@ -1,7 +1,7 @@
 import React from 'react';
 import PublicRoute from './components/PublicRoute';
 import PrivateRoute from './components/PrivateRoute';
-import { BrowserRouter as Router, Switch } from 'react-router-dom';
+import { Switch } from 'react-router-dom';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Meeting from './pages/Meeting';
@@ -39,22 +39,18 @@ import Meeting from './pages/Meeting';
 // </Container>;
 
 const App = () => {
-  const authenticated = false;
-
   return (
-    <Router>
-      <Switch>
-        <PrivateRoute path="/meet" authenticated={authenticated}>
-          <Meeting />
-        </PrivateRoute>
-        <PublicRoute path="/login" authenticated={authenticated}>
-          <Login />
-        </PublicRoute>
-        <PublicRoute path="/signup" authenticated={authenticated}>
-          <Signup />
-        </PublicRoute>
-      </Switch>
-    </Router>
+    <Switch>
+      <PrivateRoute path="/meet">
+        <Meeting />
+      </PrivateRoute>
+      <PublicRoute path="/login">
+        <Login />
+      </PublicRoute>
+      <PublicRoute path="/signup">
+        <Signup />
+      </PublicRoute>
+    </Switch>
   );
 };
 
