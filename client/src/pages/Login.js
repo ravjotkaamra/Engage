@@ -34,13 +34,9 @@ export default function Login() {
   // if the user submits the login form
   const handleSubmit = (event) => {
     event.preventDefault();
-    try {
-      dispatch(login(email, password));
-      setEmail('');
-      setPassword('');
-    } catch (err) {
-      console.log('error signing in :>> ', err);
-    }
+    dispatch(login(email, password));
+    setEmail('');
+    setPassword('');
   };
 
   // if the user clicks the signin with google button
@@ -110,7 +106,9 @@ export default function Login() {
                   justify={'space-between'}
                 >
                   <Checkbox>Remember me</Checkbox>
-                  <Link color={'blue.400'}>Forgot password?</Link>
+                  <Link as={ReachLink} to="/reset" color={'blue.400'}>
+                    Forgot password?
+                  </Link>
                 </Stack>
                 <Stack className="login-btns">
                   <Button

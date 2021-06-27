@@ -5,6 +5,7 @@ import { Switch } from 'react-router-dom';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Meeting from './pages/Meeting';
+import ForgotPassword from './pages/ForgotPassword';
 // <Container maxW="xl" centerContent>
 //   <Heading
 //     bgGradient="linear(to-l, #7928CA,#FF0080)"
@@ -40,19 +41,20 @@ import Meeting from './pages/Meeting';
 
 const App = () => {
   return (
-    <>
-      <Switch>
-        <PrivateRoute path="/meet">
-          <Meeting />
-        </PrivateRoute>
-        <PublicRoute path="/login">
-          <Login />
-        </PublicRoute>
-        <PublicRoute path="/signup">
-          <Signup />
-        </PublicRoute>
-      </Switch>
-    </>
+    <Switch>
+      <PrivateRoute path="/meet">
+        <Meeting />
+      </PrivateRoute>
+      <PublicRoute path="/login">
+        <Login />
+      </PublicRoute>
+      <PublicRoute path="/signup">
+        <Signup />
+      </PublicRoute>
+      <PublicRoute path="/reset">
+        <ForgotPassword />
+      </PublicRoute>
+    </Switch>
   );
 };
 

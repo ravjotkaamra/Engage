@@ -36,15 +36,11 @@ export default function Login() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const name = `${firstName} ${lastName}`;
-    try {
-      dispatch(signup(email, password, name));
-      setEmail('');
-      setPassword('');
-      setFirstName('');
-      setLastName('');
-    } catch (err) {
-      console.log('trouble signing up :>> ', err);
-    }
+    dispatch(signup(email, password, name));
+    setEmail('');
+    setPassword('');
+    setFirstName('');
+    setLastName('');
   };
 
   // if the user clicks the signup with google button
@@ -141,7 +137,9 @@ export default function Login() {
                   justify={'space-between'}
                 >
                   <Checkbox>Remember me</Checkbox>
-                  <Link color={'blue.400'}>Forgot password?</Link>
+                  <Link as={ReachLink} to="/reset" color={'blue.400'}>
+                    Forgot password?
+                  </Link>
                 </Stack>
                 <Stack className="login-btns">
                   <Button

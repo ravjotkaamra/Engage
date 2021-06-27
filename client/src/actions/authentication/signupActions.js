@@ -1,30 +1,38 @@
-import { setNotification } from '../notifyActions';
+import { createStandaloneToast } from '@chakra-ui/react';
+import theme from '../../theme';
+const toast = createStandaloneToast({ theme });
 
 export const signup = (email, password, displayName) => {
   return async (dispatch, getState, getFirebase) => {
     const firebase = getFirebase();
+    let toastObj;
     try {
       // use firebase object to create new account with email and password
       const userCredential = await firebase.createUser(
         { email, password },
         { displayName, email }
       );
-
-      const notification = {
-        message: 'Your account was registered',
-        type: 'success',
-        timeout: 5000,
+      const name = getState().firebase.profile.displayName;
+      toastObj = {
+        title: 'Account created',
+        description: `Welcome ${name}!`,
+        status: 'success',
       };
-      dispatch(setNotification(notification));
       console.log('user information: >>', userCredential);
     } catch (error) {
-      const notification = {
-        message: 'Wrong email or password too weak',
-        type: 'failure',
-        timeout: 5000,
-      };
-      dispatch(setNotification(notification));
       console.log('trouble signup', error);
+      toastObj = {
+        title: 'Wrong Credentials',
+        description: 'Wrong email or password is too short',
+        status: 'error',
+      };
     }
+
+    toast({
+      ...toastObj,
+      duration: 5000,
+      isClosable: true,
+      variant: 'left-accent',
+    });
   };
 };
