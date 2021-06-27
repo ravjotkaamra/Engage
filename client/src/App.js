@@ -40,17 +40,19 @@ import Meeting from './pages/Meeting';
 
 const App = () => {
   return (
-    <Switch>
-      <PrivateRoute path="/meet">
-        <Meeting />
-      </PrivateRoute>
-      <PublicRoute path="/login">
-        <Login />
-      </PublicRoute>
-      <PublicRoute path="/signup">
-        <Signup />
-      </PublicRoute>
-    </Switch>
+    <>
+      <Switch>
+        <PrivateRoute path="/meet">
+          <Meeting />
+        </PrivateRoute>
+        <PublicRoute path="/login">
+          <Login />
+        </PublicRoute>
+        <PublicRoute path="/signup">
+          <Signup />
+        </PublicRoute>
+      </Switch>
+    </>
   );
 };
 

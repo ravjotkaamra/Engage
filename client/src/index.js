@@ -5,19 +5,13 @@ import store from './store';
 import { Provider } from 'react-redux';
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase';
 import { createFirestoreInstance } from 'redux-firestore';
+import './services/firebase';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { ChakraProvider, extendTheme } from '@chakra-ui/react';
+import { ChakraProvider } from '@chakra-ui/react';
+import theme from './theme';
 import App from './App';
-import '@fontsource/raleway/400.css';
-import '@fontsource/open-sans/700.css';
-import './index.css';
 
-const theme = extendTheme({
-  fonts: {
-    heading: 'Open Sans',
-    body: 'Raleway',
-  },
-});
+import './index.css';
 
 // react-redux-firebase config
 const rrfConfig = {

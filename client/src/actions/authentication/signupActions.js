@@ -11,7 +11,7 @@ export const signup = (email, password, displayName) => {
       );
 
       const notification = {
-        message: 'Successfully account created',
+        message: 'Your account was registered',
         type: 'success',
         timeout: 5000,
       };
