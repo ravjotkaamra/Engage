@@ -1,19 +1,23 @@
 import React from 'react';
-import { Container, Center } from '@chakra-ui/layout';
+import { useDispatch } from 'react-redux';
+import { createNewMeeting } from '../actions/meeting/create';
+import { Container, Box } from '@chakra-ui/layout';
 import { Button } from '@chakra-ui/react';
 import { AiOutlineVideoCameraAdd } from 'react-icons/ai';
 const Meet = () => {
+  const dispatch = useDispatch();
   return (
-    <Container maxW="xl" centerContent>
-      <Center>
+    <Container centerContent>
+      <Box>
         <Button
+          onClick={() => dispatch(createNewMeeting())}
           leftIcon={<AiOutlineVideoCameraAdd />}
           colorScheme="telegram"
           variant="solid"
         >
           New Meeting
         </Button>
-      </Center>
+      </Box>
     </Container>
   );
 };

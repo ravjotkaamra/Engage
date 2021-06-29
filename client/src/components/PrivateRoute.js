@@ -1,11 +1,21 @@
+import { createStandaloneToast } from '@chakra-ui/react';
+import theme from '../theme';
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import { isLoaded, isEmpty } from 'react-redux-firebase';
-import { useSelector } from 'react-redux';
 
-const PrivateRoute = ({ children, ...rest }) => {
-  const auth = useSelector((state) => state.firebase.auth);
-  const authenticated = isLoaded(auth) && !isEmpty(auth);
+const PrivateRoute = ({ children, authenticated, ...rest }) => {
+  const toast = createStandaloneToast({ theme });
+  if (!authenticated) {
+    toast({
+      title: 'You are not logged in',
+      description: 'Please login or create a new account to continue',
+      status: 'info',
+      position: 'top',
+      duration: 4000,
+      isClosable: true,
+      variant: 'top-accent',
+    });
+  }
 
   return (
     <Route

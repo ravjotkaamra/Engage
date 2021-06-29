@@ -1,13 +1,15 @@
 import React from 'react';
-import Navbar from './components/Navbar';
+import Navbar from './components/Header/Navbar';
 import PublicRoute from './components/PublicRoute';
-// import PrivateRoute from './components/PrivateRoute';
+import PrivateRoute from './components/PrivateRoute';
 import { Switch } from 'react-router-dom';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 // import Meeting from './pages/Meeting';
 import Meet from './pages/Meet';
 import ForgotPassword from './pages/ForgotPassword';
+import { isLoaded, isEmpty } from 'react-redux-firebase';
+import { useSelector } from 'react-redux';
 // <Container maxW="xl" centerContent>
 //   <Heading
 //     bgGradient="linear(to-l, #7928CA,#FF0080)"
@@ -40,26 +42,29 @@ import ForgotPassword from './pages/ForgotPassword';
 
 //   <VideoConference />
 // </Container>;
-
 const App = () => {
+  const auth = useSelector((state) => state.firebase.auth);
+  const authenticated = isLoaded(auth) && !isEmpty(auth);
+
   return (
-    <>
-      <Navbar />
-      <Switch>
-        <PublicRoute path="/meet">
-          <Meet />
-        </PublicRoute>
-        <PublicRoute path="/login">
-          <Login />
-        </PublicRoute>
-        <PublicRoute path="/signup">
-          <Signup />
-        </PublicRoute>
-        <PublicRoute path="/reset">
-          <ForgotPassword />
-        </PublicRoute>
-      </Switch>
-    </>
+    <Switch>
+      <PublicRoute path="/" exact authenticated={authenticated}>
+        <Navbar authenticated={authenticated} />;
+      </PublicRoute>
+      <PrivateRoute path="/meet" authenticated={authenticated}>
+        <Navbar authenticated={authenticated} />;
+        <Meet />
+      </PrivateRoute>
+      <PublicRoute path="/login" authenticated={authenticated}>
+        <Login />
+      </PublicRoute>
+      <PublicRoute path="/signup" authenticated={authenticated}>
+        <Signup />
+      </PublicRoute>
+      <PublicRoute path="/reset" authenticated={authenticated}>
+        <ForgotPassword />
+      </PublicRoute>
+    </Switch>
   );
 };
 

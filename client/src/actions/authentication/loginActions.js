@@ -3,7 +3,7 @@ import theme from '../../theme';
 const toast = createStandaloneToast({ theme });
 
 export const login = (email, password) => {
-  return async (dispatch, getState, getFirebase) => {
+  return async (dispatch, getState, { getFirebase }) => {
     const firebase = getFirebase();
     let toastObj;
     try {
@@ -34,7 +34,7 @@ export const login = (email, password) => {
 };
 
 export const logout = () => {
-  return async (dispatch, getState, getFirebase) => {
+  return async (dispatch, getState, { getFirebase }) => {
     const firebase = getFirebase();
     try {
       await firebase.logout();

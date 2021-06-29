@@ -3,7 +3,7 @@ import theme from '../../theme';
 const toast = createStandaloneToast({ theme });
 
 export const signup = (email, password, displayName) => {
-  return async (dispatch, getState, getFirebase) => {
+  return async (dispatch, getState, { getFirebase }) => {
     const firebase = getFirebase();
     let toastObj;
     try {

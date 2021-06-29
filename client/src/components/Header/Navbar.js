@@ -21,14 +21,18 @@ import {
   Heading,
 } from '@chakra-ui/react';
 import { useViewportScroll } from 'framer-motion';
-
 import { IoIosArrowDown } from 'react-icons/io';
 import { AiFillHome, AiOutlineInbox, AiOutlineMenu } from 'react-icons/ai';
 import { BsFillCameraVideoFill } from 'react-icons/bs';
 import { FaMoon, FaSun } from 'react-icons/fa';
+import LoginBtn from './LoginBtn';
+import SignupBtn from './SignupBtn';
+import LogoutBtn from './LogoutBtn';
 
 export default function Navbar(props) {
   const history = useHistory();
+  const { authenticated } = props;
+
   const { toggleColorMode: toggleMode } = useColorMode();
   const text = useColorModeValue('dark', 'light');
   const SwitchIcon = useColorModeValue(FaMoon, FaSun);
@@ -245,44 +249,63 @@ export default function Navbar(props) {
       </React.Fragment>
     );
   };
-
-  const MobileNavContent = (
-    <VStack
-      pos="absolute"
-      top={0}
-      left={0}
-      right={0}
-      display={mobileNav.isOpen ? 'flex' : 'none'}
-      flexDirection="column"
-      p={2}
-      pb={4}
-      m={2}
-      bg={bg}
-      spacing={3}
-      rounded="sm"
-      shadow="sm"
-    >
-      <CloseButton
-        aria-label="Close menu"
-        justifySelf="self-start"
-        onClick={mobileNav.onClose}
-      />
-      <Button w="full" variant="ghost" leftIcon={<AiFillHome />}>
-        Dashboard
-      </Button>
-      <Button
-        w="full"
-        variant="solid"
-        colorScheme="brand"
-        leftIcon={<AiOutlineInbox />}
+  const AuthButton = () => {
+    if (authenticated) {
+      return <LogoutBtn />;
+    } else {
+      return (
+        <>
+          <LoginBtn />
+          <SignupBtn />
+        </>
+      );
+    }
+  };
+  const MobileNavContent = () => {
+    const history = useHistory();
+    return (
+      <VStack
+        pos="absolute"
+        top={0}
+        left={0}
+        right={0}
+        display={mobileNav.isOpen ? 'flex' : 'none'}
+        flexDirection="column"
+        p={2}
+        pb={4}
+        m={2}
+        bg={bg}
+        spacing={3}
+        rounded="sm"
+        shadow="sm"
       >
-        Inbox
-      </Button>
-      <Button w="full" variant="ghost" leftIcon={<BsFillCameraVideoFill />}>
-        Videos
-      </Button>
-    </VStack>
-  );
+        <CloseButton
+          aria-label="Close menu"
+          justifySelf="self-start"
+          onClick={mobileNav.onClose}
+        />
+        <Button
+          w="full"
+          variant="ghost"
+          leftIcon={<AiFillHome />}
+          onClick={() => history.push('/meet')}
+        >
+          Dashboard
+        </Button>
+        <Button
+          w="full"
+          variant="solid"
+          colorScheme="brand"
+          leftIcon={<AiOutlineInbox />}
+        >
+          Inbox
+        </Button>
+        <Button w="full" variant="ghost" leftIcon={<BsFillCameraVideoFill />}>
+          Videos
+        </Button>
+      </VStack>
+    );
+  };
   return (
     <React.Fragment>
       <chakra.header
@@ -313,6 +336,7 @@ export default function Navbar(props) {
             <Flex>
               <HStack spacing="5" display={{ base: 'none', md: 'flex' }}>
                 <Button
+                  onClick={() => history.push('/meet')}
                   bg={bg}
                   color="gray.500"
                   display="inline-flex"
@@ -362,22 +386,7 @@ export default function Navbar(props) {
             </Flex>
             <Flex justify="flex-end" align="center" color="gray.400">
               <HStack spacing="5" display={{ base: 'none', md: 'flex' }}>
-                <Button
-                  colorScheme="brand"
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => history.push('/login')}
-                >
-                  Sign in
-                </Button>
-                <Button
-                  colorScheme="brand"
-                  variant="solid"
-                  size="sm"
-                  onClick={() => history.push('/signup')}
-                >
-                  Sign up
-                </Button>
+                <AuthButton />
               </HStack>
               <IconButton
                 size="md"
@@ -400,7 +409,7 @@ export default function Navbar(props) {
               />
             </Flex>
           </Flex>
-          {MobileNavContent}
+          <MobileNavContent />
         </chakra.div>
       </chakra.header>
     </React.Fragment>
