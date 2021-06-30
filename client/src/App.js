@@ -8,8 +8,8 @@ import Signup from './pages/Signup';
 // import Meeting from './pages/Meeting';
 import Meet from './pages/Meet';
 import ForgotPassword from './pages/ForgotPassword';
-import { isLoaded, isEmpty } from 'react-redux-firebase';
-import { useSelector } from 'react-redux';
+import { Box } from '@chakra-ui/react';
+
 // <Container maxW="xl" centerContent>
 //   <Heading
 //     bgGradient="linear(to-l, #7928CA,#FF0080)"
@@ -42,29 +42,32 @@ import { useSelector } from 'react-redux';
 
 //   <VideoConference />
 // </Container>;
+import { Route } from 'react-router-dom';
 const App = () => {
-  const auth = useSelector((state) => state.firebase.auth);
-  const authenticated = isLoaded(auth) && !isEmpty(auth);
-
   return (
-    <Switch>
-      <PublicRoute path="/" exact authenticated={authenticated}>
-        <Navbar authenticated={authenticated} />;
-      </PublicRoute>
-      <PrivateRoute path="/meet" authenticated={authenticated}>
-        <Navbar authenticated={authenticated} />;
-        <Meet />
-      </PrivateRoute>
-      <PublicRoute path="/login" authenticated={authenticated}>
-        <Login />
-      </PublicRoute>
-      <PublicRoute path="/signup" authenticated={authenticated}>
-        <Signup />
-      </PublicRoute>
-      <PublicRoute path="/reset" authenticated={authenticated}>
-        <ForgotPassword />
-      </PublicRoute>
-    </Switch>
+    <>
+      <Navbar />;
+      <Switch>
+        <Route path="/" exact>
+          <Box>Hello World</Box>
+        </Route>
+        <PrivateRoute path="/meet/:id">
+          <Meet />
+        </PrivateRoute>
+        <PrivateRoute path="/meet">
+          <Meet />
+        </PrivateRoute>
+        <PublicRoute path="/login">
+          <Login />
+        </PublicRoute>
+        <PublicRoute path="/signup">
+          <Signup />
+        </PublicRoute>
+        <PublicRoute path="/reset">
+          <ForgotPassword />
+        </PublicRoute>
+      </Switch>
+    </>
   );
 };
 

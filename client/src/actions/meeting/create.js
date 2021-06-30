@@ -2,13 +2,12 @@ import { createStandaloneToast } from '@chakra-ui/react';
 import theme from '../../theme';
 const toast = createStandaloneToast({ theme });
 
-export const createNewMeeting = () => {
-  return async (dispatch, getState, {  getFirestore }) => {
+export const createNewMeeting = (history) => {
+  return async (dispatch, getState, { getFirestore }) => {
     // getting state from redux store
     const state = getState();
     // getting firestore object for accessing 'meetings' collection
     const firestore = getFirestore();
-    console.log('firestore :>> ', firestore);
     // getting user id of the logged in user
     const uid = state.firebase.auth.uid;
     // getting email id and name of the logged in user
@@ -25,13 +24,13 @@ export const createNewMeeting = () => {
     // send a post request to the firebase collection to create a new meeting
     try {
       const response = await firestore.collection('meetings').add(meeting);
+      history.push(`/meet/${response.id}`);
       toastObj = {
         title: 'Meeting created',
         description: 'Click on invite button to meet your friends',
         status: 'success',
       };
-      console.log('response :>> ', response);
-      console.log('response.doc() :>> ', response.doc());
+      console.log('response :>> ', response.id);
     } catch (error) {
       console.log('error :>> ', error);
       toastObj = {

@@ -4,13 +4,15 @@ import { createNewMeeting } from '../actions/meeting/create';
 import { Container, Box } from '@chakra-ui/layout';
 import { Button } from '@chakra-ui/react';
 import { AiOutlineVideoCameraAdd } from 'react-icons/ai';
+import { useHistory } from 'react-router-dom';
 const Meet = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
   return (
     <Container centerContent>
       <Box>
         <Button
-          onClick={() => dispatch(createNewMeeting())}
+          onClick={() => dispatch(createNewMeeting(history))}
           leftIcon={<AiOutlineVideoCameraAdd />}
           colorScheme="telegram"
           variant="solid"
