@@ -12,7 +12,7 @@ export const signInWithGoogle = () => {
         provider: 'google',
         type: 'popup',
       });
-      const name = getState().firebase.profile.displayName;
+      const name = getState().firebase.auth.displayName;
       toastObj = {
         title: 'Logged in',
         description: `Welcome ${name}!`,

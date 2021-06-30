@@ -9,7 +9,7 @@ export const login = (email, password) => {
     try {
       // use firebase object to login with email and password
       const userCredential = await firebase.login({ email, password });
-      const name = getState().firebase.profile.displayName;
+      const name = getState().firebase.auth.displayName;
       toastObj = {
         title: 'Logged in',
         description: `Welcome ${name}!`,

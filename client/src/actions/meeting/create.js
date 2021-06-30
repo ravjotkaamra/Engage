@@ -31,6 +31,7 @@ export const createNewMeeting = () => {
         status: 'success',
       };
       console.log('response :>> ', response);
+      console.log('response.doc() :>> ', response.doc());
     } catch (error) {
       console.log('error :>> ', error);
       toastObj = {
