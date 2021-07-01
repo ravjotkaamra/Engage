@@ -7,7 +7,7 @@ import Signup from './pages/Signup';
 // import Meeting from './pages/Meeting';
 import Meet from './pages/Meet';
 import ForgotPassword from './pages/ForgotPassword';
-import { Box, Heading } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import { isLoaded, isEmpty } from 'react-redux-firebase';
 import { useSelector } from 'react-redux';
 import Skelton from './pages/Skelton';
@@ -45,6 +45,7 @@ import Skelton from './pages/Skelton';
 // </Container>;
 import Conference from './pages/Conference';
 import Navbar from './components/Header/Navbar';
+import Home from './pages/Home';
 const App = () => {
   const auth = useSelector((state) => state.firebase.auth);
   const authenticated = isLoaded(auth) && !isEmpty(auth);
@@ -58,7 +59,7 @@ const App = () => {
       <Route path="/" exact>
         <Box>
           <Navbar authenticated={authenticated} />
-          <Heading> Hello World</Heading>
+          <Home />
         </Box>
       </Route>
       <PrivateRoute path="/join/meet/:id" authenticated={authenticated}>

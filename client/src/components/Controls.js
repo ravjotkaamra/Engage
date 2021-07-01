@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Box } from '@chakra-ui/layout';
 
-const Controls = ({ tracks, setStart, setInCall, useClient }) => {
+const Controls = ({ tracks, setStart, useClient }) => {
   const client = useClient();
   const [trackState, setTrackState] = useState({ video: true, audio: true });
 
@@ -25,7 +25,6 @@ const Controls = ({ tracks, setStart, setInCall, useClient }) => {
     tracks[0].close();
     tracks[1].close();
     setStart(false);
-    setInCall(false);
   };
 
   return (

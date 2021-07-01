@@ -13,15 +13,14 @@ app.post('/api/rtctoken', (req, res) => {
   const appID = process.env.AGORA_APP_ID;
   const appCertificate = process.env.AGORA_APP_CERTIFICATE;
   const expirationTimeInSeconds = 3600;
-  const uid = Math.floor(Math.random() * 100000);
+  const channel = req.body.channel;
+  const uid = req.body.uid;
   const role = req.body.isPublisher
     ? Agora.RtcRole.PUBLISHER
     : Agora.RtcRole.SUBSCRIBER;
-  const channel = req.body.channel;
   const currentTimestamp = Math.floor(Date.now() / 1000);
   const expirationTimestamp = currentTimestamp + expirationTimeInSeconds;
-
-  const token = Agora.RtcTokenBuilder.buildTokenWithUid(
+  const token = Agora.RtcTokenBuilder.buildTokenWithAccount(
     appID,
     appCertificate,
     channel,

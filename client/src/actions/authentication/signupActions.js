@@ -30,6 +30,7 @@ export const signup = (email, password, displayName) => {
 
     toast({
       ...toastObj,
+      position: 'top',
       duration: 5000,
       isClosable: true,
       variant: 'left-accent',

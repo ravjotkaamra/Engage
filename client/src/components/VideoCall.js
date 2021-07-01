@@ -4,16 +4,18 @@ import { Box } from '@chakra-ui/layout';
 import { createClient, createMicrophoneAndCameraTracks } from 'agora-rtc-react';
 import Controls from './Controls';
 import Videos from './Videos';
+import { useSelector } from 'react-redux';
 // constants for configuring AgoraRTC
 const agoraConfig = {
   mode: 'rtc',
-  codec: 'vp8',
+  codec: 'h264',
 };
 const agoraAppId = process.env.REACT_APP_AGORA_APP_ID; //ENTER APP ID HERE
 const useClient = createClient(agoraConfig);
 const useMicrophoneAndCameraTracks = createMicrophoneAndCameraTracks();
+const VideoCall = ({ channelName }) => {
+  const auth = useSelector(({ firebase }) => firebase.auth);
 
-const VideoCall = ({ setInCall, channelName }) => {
   const client = useClient();
   const { ready, tracks } = useMicrophoneAndCameraTracks();
   console.log('client :>> ', client);
@@ -59,7 +61,11 @@ const VideoCall = ({ setInCall, channelName }) => {
         });
       });
 
-      const { uid, token } = await agoraServices.fetchAgoraToken(channelName);
+      const { uid, token } = await agoraServices.fetchAgoraToken(
+        channelName,
+        auth.uid
+      );
+      console.log('user id token blabla :>> ', uid, typeof uid);
       await client.join(agoraAppId, channelName, token, uid);
       if (tracks) {
         await client.publish([tracks[0], tracks[1]]);
@@ -71,17 +77,12 @@ const VideoCall = ({ setInCall, channelName }) => {
       console.log('init ready');
       init(channelName);
     }
-  }, [channelName, client, ready, tracks]);
+  }, [auth.uid, channelName, client, ready, tracks]);
 
   return (
-    <Box className="App">
+    <Box>
       {ready && tracks && (
-        <Controls
-          useClient={useClient}
-          tracks={tracks}
-          setStart={setStart}
-          setInCall={setInCall}
-        />
+        <Controls useClient={useClient} tracks={tracks} setStart={setStart} />
       )}
       {start && tracks && <Videos remoteUsers={remoteUsers} tracks={tracks} />}
     </Box>

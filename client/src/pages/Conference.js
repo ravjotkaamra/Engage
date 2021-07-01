@@ -68,7 +68,7 @@ const Conference = () => {
   return (
     <Box>
       <Heading>Hey Welcome to the meeting!</Heading>;
-      {/* <VideoCall channelName={meetId} /> */}
+      <VideoCall channelName={meetId} />
     </Box>
   );
 };

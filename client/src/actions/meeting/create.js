@@ -43,6 +43,7 @@ export const createNewMeeting = (history) => {
     // send a notification alert on to the screen
     toast({
       ...toastObj,
+      position: 'top',
       duration: 5000,
       isClosable: true,
       variant: 'left-accent',
