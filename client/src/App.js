@@ -1,15 +1,16 @@
 import React from 'react';
-import Navbar from './components/Header/Navbar';
 import PublicRoute from './components/PublicRoute';
 import PrivateRoute from './components/PrivateRoute';
-import { Switch } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 // import Meeting from './pages/Meeting';
 import Meet from './pages/Meet';
 import ForgotPassword from './pages/ForgotPassword';
-import { Box } from '@chakra-ui/react';
-
+import { Box, Heading } from '@chakra-ui/react';
+import { isLoaded, isEmpty } from 'react-redux-firebase';
+import { useSelector } from 'react-redux';
+import Skelton from './pages/Skelton';
 // <Container maxW="xl" centerContent>
 //   <Heading
 //     bgGradient="linear(to-l, #7928CA,#FF0080)"
@@ -42,32 +43,43 @@ import { Box } from '@chakra-ui/react';
 
 //   <VideoConference />
 // </Container>;
-import { Route } from 'react-router-dom';
+import Conference from './pages/Conference';
+import Navbar from './components/Header/Navbar';
 const App = () => {
+  const auth = useSelector((state) => state.firebase.auth);
+  const authenticated = isLoaded(auth) && !isEmpty(auth);
+
+  if (!isLoaded(auth)) {
+    return <Skelton />;
+  }
+
   return (
-    <>
-      <Navbar />;
-      <Switch>
-        <Route path="/" exact>
-          <Box>Hello World</Box>
-        </Route>
-        <PrivateRoute path="/meet/:id">
+    <Switch>
+      <Route path="/" exact>
+        <Box>
+          <Navbar authenticated={authenticated} />
+          <Heading> Hello World</Heading>
+        </Box>
+      </Route>
+      <PrivateRoute path="/join/meet/:id" authenticated={authenticated}>
+        <Conference />
+      </PrivateRoute>
+      <PrivateRoute path="/meet" authenticated={authenticated}>
+        <Box>
+          <Navbar authenticated={authenticated} />
           <Meet />
-        </PrivateRoute>
-        <PrivateRoute path="/meet">
-          <Meet />
-        </PrivateRoute>
-        <PublicRoute path="/login">
-          <Login />
-        </PublicRoute>
-        <PublicRoute path="/signup">
-          <Signup />
-        </PublicRoute>
-        <PublicRoute path="/reset">
-          <ForgotPassword />
-        </PublicRoute>
-      </Switch>
-    </>
+        </Box>
+      </PrivateRoute>
+      <PublicRoute path="/login" authenticated={authenticated}>
+        <Login />
+      </PublicRoute>
+      <PublicRoute path="/signup" authenticated={authenticated}>
+        <Signup />
+      </PublicRoute>
+      <PublicRoute path="/reset" authenticated={authenticated}>
+        <ForgotPassword />
+      </PublicRoute>
+    </Switch>
   );
 };
 

@@ -28,12 +28,8 @@ import { FaMoon, FaSun } from 'react-icons/fa';
 import LoginBtn from './LoginBtn';
 import SignupBtn from './SignupBtn';
 import LogoutBtn from './LogoutBtn';
-import { isLoaded, isEmpty } from 'react-redux-firebase';
-import { useSelector } from 'react-redux';
-export default function Navbar(props) {
-  const auth = useSelector((state) => state.firebase.auth);
-  const authenticated = isLoaded(auth) && !isEmpty(auth);
 
+export default function Navbar({ authenticated }) {
   const history = useHistory();
 
   const { toggleColorMode: toggleMode } = useColorMode();

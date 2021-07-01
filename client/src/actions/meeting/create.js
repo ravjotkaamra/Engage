@@ -24,7 +24,7 @@ export const createNewMeeting = (history) => {
     // send a post request to the firebase collection to create a new meeting
     try {
       const response = await firestore.collection('meetings').add(meeting);
-      history.push(`/meet/${response.id}`);
+      history.push(`/join/meet/${response.id}`);
       toastObj = {
         title: 'Meeting created',
         description: 'Click on invite button to meet your friends',
