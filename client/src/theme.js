@@ -27,6 +27,7 @@ const theme = extendTheme({
     heading: 'Open Sans',
     body: 'Raleway',
   },
+  
   colors,
   config,
 });

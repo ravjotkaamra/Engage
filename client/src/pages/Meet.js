@@ -4,12 +4,13 @@ import {
   Button,
   Box,
   Flex,
+  Image,
   useColorModeValue,
 } from '@chakra-ui/react';
 import { useDispatch } from 'react-redux';
 import { AiOutlineVideoCameraAdd } from 'react-icons/ai';
 import { useHistory } from 'react-router-dom';
-
+import meetImage from '../assets/meet.svg';
 const Meet = () => {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -30,15 +31,7 @@ const Meet = () => {
         rounded={{ lg: 'lg' }}
       >
         <Box w={{ lg: '50%' }}>
-          <Box
-            h={{ base: 64, lg: 'full' }}
-            rounded={{ lg: 'lg' }}
-            bgSize="cover"
-            style={{
-              backgroundImage:
-                "url('https://images.unsplash.com/photo-1593642532400-2682810df593?ixlib=rb-1.2.1&ixid=MXwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=750&q=80')",
-            }}
-          ></Box>
+          <Image rounded={{ lg: 'lg' }} bgSize="cover" src={meetImage} />
         </Box>
 
         <Box py={12} px={6} maxW={{ base: 'xl', lg: '5xl' }} w={{ lg: '50%' }}>
