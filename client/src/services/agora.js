@@ -1,5 +1,5 @@
 import axios from 'axios';
-const baseUrl = 'http://localhost:3001/api/rtctoken';
+const baseUrl = '/api/rtctoken';
 
 const fetchAgoraToken = async (channel, uid, isPublisher = true) => {
   const body = {
