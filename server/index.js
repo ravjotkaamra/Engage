@@ -2,12 +2,13 @@ require('dotenv').config();
 const express = require('express');
 const Agora = require('agora-access-token');
 const cors = require('cors');
+const { default: sslRedirect } = require('heroku-ssl-redirect');
 
 const app = express();
 app.use(express.json());
 app.use(cors());
-
-app.get('/', (req, res) => res.send('Agora Auth Token Server'));
+app.use(sslRedirect);
+app.use(express.static('build'));
 
 app.post('/api/rtctoken', (req, res) => {
   const appID = process.env.AGORA_APP_ID;
