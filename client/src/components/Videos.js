@@ -7,18 +7,15 @@ const Videos = ({ remoteUsers, tracks }) => {
     <Box>
       <Box id="videos">
         <AgoraVideoPlayer className="vid" videoTrack={tracks[1]} />
-        {remoteUsers.length > 0 &&
-          remoteUsers.map((user) => {
-            if (user.videoTrack) {
-              return (
-                <AgoraVideoPlayer
-                  className="vid"
-                  videoTrack={user.videoTrack}
-                  key={user.uid}
-                />
-              );
-            } else return null;
-          })}
+        {remoteUsers?.map((user) =>
+          user.videoTrack ? (
+            <AgoraVideoPlayer
+              className="vid"
+              videoTrack={user.videoTrack}
+              key={user.uid}
+            />
+          ) : null
+        )}
       </Box>
     </Box>
   );

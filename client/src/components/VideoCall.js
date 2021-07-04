@@ -81,10 +81,10 @@ const VideoCall = ({ channelName }) => {
 
   return (
     <Box>
+      {start && tracks && <Videos remoteUsers={remoteUsers} tracks={tracks} />}
       {ready && tracks && (
         <Controls useClient={useClient} tracks={tracks} setStart={setStart} />
       )}
-      {start && tracks && <Videos remoteUsers={remoteUsers} tracks={tracks} />}
     </Box>
   );
 };

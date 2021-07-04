@@ -11,6 +11,8 @@ import { useDispatch } from 'react-redux';
 import { AiOutlineVideoCameraAdd } from 'react-icons/ai';
 import { useHistory } from 'react-router-dom';
 import meetImage from '../assets/meet.svg';
+import { createNewMeeting } from '../actions/meeting/create';
+
 const Meet = () => {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -54,8 +56,7 @@ const Meet = () => {
 
           <Box mt={8}>
             <Button
-              // onClick={() => dispatch(createNewMeeting(history))}
-              onClick={() => console.log('hello world')}
+              onClick={() => dispatch(createNewMeeting(history))}
               leftIcon={<AiOutlineVideoCameraAdd />}
               bg="gray.900"
               color="gray.100"

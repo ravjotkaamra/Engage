@@ -20,8 +20,8 @@ import {
 import { FaGoogle } from 'react-icons/fa';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { useState } from 'react';
-import { login } from '../actions/authentication/loginActions';
-import { signInWithGoogle } from '../actions/authentication/oauthAction';
+import { login } from '../../actions/authentication/loginActions';
+import { signInWithGoogle } from '../../actions/authentication/oauthAction';
 
 export default function Login() {
   const [email, setEmail] = useState('');

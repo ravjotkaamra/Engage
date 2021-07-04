@@ -3,9 +3,14 @@ import { useSelector } from 'react-redux';
 import { isEmpty, isLoaded, useFirestoreConnect } from 'react-redux-firebase';
 import { useHistory, useParams } from 'react-router-dom';
 import Skelton from './Skelton';
-import { Box, createStandaloneToast, Heading } from '@chakra-ui/react';
+import {
+  Box,
+  Center,
+  createStandaloneToast,
+} from '@chakra-ui/react';
 import theme from '../theme';
 import VideoCall from '../components/VideoCall';
+import InviteBtn from '../components/InviteBtn';
 
 const Conference = () => {
   const meetId = useParams().id;
@@ -66,9 +71,17 @@ const Conference = () => {
   }
 
   return (
-    <Box>
-      <Heading>Hey Welcome to the meeting!</Heading>;
-      <VideoCall channelName={meetId} />
+    <Box h="100vh" bg="gray.800">
+      <Center>
+        <Center>
+          <InviteBtn meetId={meetId}/>
+        </Center>
+      </Center>
+      <Center>
+        <Box className="conference" border="1px">
+          <VideoCall channelName={meetId} />
+        </Box>
+      </Center>
     </Box>
   );
 };

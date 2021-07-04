@@ -378,6 +378,7 @@ export default function Navbar({ authenticated }) {
                   fontSize="md"
                   _hover={{ color: cl }}
                   _focus={{ boxShadow: 'none' }}
+                  onClick={() => history.push('/about')}
                 >
                   About
                 </Button>

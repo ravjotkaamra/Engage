@@ -15,7 +15,7 @@ import {
 } from '@chakra-ui/react';
 import { HiLogin } from 'react-icons/hi';
 import { useState } from 'react';
-import { resetPasswordWithEmail } from '../actions/authentication/resetActions';
+import { resetPasswordWithEmail } from '../../actions/authentication/resetActions';
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState('');

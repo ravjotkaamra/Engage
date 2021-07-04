@@ -2,11 +2,11 @@ import React from 'react';
 import PublicRoute from './components/PublicRoute';
 import PrivateRoute from './components/PrivateRoute';
 import { Switch, Route } from 'react-router-dom';
-import Login from './pages/Login';
-import Signup from './pages/Signup';
+import Login from './pages/Authentication/Login';
+import Signup from './pages/Authentication/Signup';
 // import Meeting from './pages/Meeting';
 import Meet from './pages/Meet';
-import ForgotPassword from './pages/ForgotPassword';
+import ForgotPassword from './pages/Authentication/ForgotPassword';
 import { Box } from '@chakra-ui/react';
 import { isLoaded, isEmpty } from 'react-redux-firebase';
 import { useSelector } from 'react-redux';
@@ -46,6 +46,7 @@ import Skelton from './pages/Skelton';
 import Conference from './pages/Conference';
 import Navbar from './components/Header/Navbar';
 import Home from './pages/Home';
+import ChatRoom from './pages/Chat/ChatRoom';
 const App = () => {
   const auth = useSelector((state) => state.firebase.auth);
   const authenticated = isLoaded(auth) && !isEmpty(auth);
@@ -61,6 +62,9 @@ const App = () => {
           <Navbar authenticated={authenticated} />
           <Home />
         </Box>
+      </Route>
+      <Route path="/about" exact>
+        <ChatRoom teamId="xsWcNDCxtA3kku9yM9Cu" />
       </Route>
       <PrivateRoute path="/join/meet/:id" authenticated={authenticated}>
         <Conference />
