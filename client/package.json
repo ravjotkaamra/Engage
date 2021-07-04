@@ -36,7 +36,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "build:ui": "rm -rf build && cd ../client/ && npm run build --prod && cp -r build ../server",
-    "deploy": "git push heroku main",
+    "deploy": "git subtree push --prefix server heroku main",
     "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push && npm run deploy",    
     "logs:prod": "heroku logs --tail"
   },
