@@ -7,7 +7,7 @@ const { default: sslRedirect } = require('heroku-ssl-redirect');
 const app = express();
 app.use(express.json());
 app.use(cors());
-app.use(sslRedirect);
+app.use(sslRedirect());
 app.use(express.static('build'));
 
 app.post('/api/rtctoken', (req, res) => {
