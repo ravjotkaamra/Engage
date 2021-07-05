@@ -9,14 +9,17 @@ const ChatBox = ({ teamId }) => {
 
   const sendMessage = async (e) => {
     e.preventDefault();
-    const { uid, photoURL } = auth;
+    const { uid, displayName, photoURL } = auth;
     const text = formValue;
     setFormValue('');
     await firestore.collection('teams').doc(teamId).collection('messages').add({
+      sentAt: firestore.FieldValue.serverTimestamp(),
+      sentBy: {
+        uid,
+        photoURL,
+        displayName,
+      },
       text,
-      createdAt: firestore.FieldValue.serverTimestamp(),
-      uid,
-      photoURL,
     });
   };
 

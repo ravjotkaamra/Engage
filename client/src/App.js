@@ -64,7 +64,7 @@ const App = () => {
         </Box>
       </Route>
       <Route path="/about" exact>
-        <ChatRoom teamId="xsWcNDCxtA3kku9yM9Cu" />
+        <ChatRoom teamId="oSxBnr3cKzREXcmEtOgV" />
       </Route>
       <PrivateRoute path="/join/meet/:id" authenticated={authenticated}>
         <Conference />

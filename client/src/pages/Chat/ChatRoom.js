@@ -12,7 +12,7 @@ const ChatRoom = ({ teamId }) => {
       collection: 'teams',
       doc: teamId,
       subcollections: [
-        { collection: 'messages', orderBy: 'createdAt', limitToLast: '10' },
+        { collection: 'messages', orderBy: 'sentAt', limit: '10' },
       ],
       storeAs: 'messages',
     },
