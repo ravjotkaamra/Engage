@@ -5,7 +5,6 @@ import { Switch, Route } from 'react-router-dom';
 import Login from './pages/Authentication/Login';
 import Signup from './pages/Authentication/Signup';
 // import Meeting from './pages/Meeting';
-import Meet from './pages/Meet';
 import ForgotPassword from './pages/Authentication/ForgotPassword';
 import { Box } from '@chakra-ui/react';
 import { isLoaded, isEmpty } from 'react-redux-firebase';
@@ -46,7 +45,10 @@ import Skelton from './pages/Skelton';
 import Conference from './pages/Conference';
 import Navbar from './components/Header/Navbar';
 import Home from './pages/Home';
-import ChatRoom from './pages/Chat/ChatRoom';
+import SidebarTemp from './components/Dashboard/SidebarTemporary';
+// import Side from './components/Side';
+import Dashboard from './components/Dashboard/Dashboard';
+// import ChatRoom from './pages/Chat/ChatRoom';
 const App = () => {
   const auth = useSelector((state) => state.firebase.auth);
   const authenticated = isLoaded(auth) && !isEmpty(auth);
@@ -64,17 +66,13 @@ const App = () => {
         </Box>
       </Route>
       <Route path="/about" exact>
-        <ChatRoom teamId="oSxBnr3cKzREXcmEtOgV" />
+        {/* <ChatRoom teamId="oSxBnr3cKzREXcmEtOgV" /> */}
+        <>
+          <SidebarTemp />
+          {/* <Side /> */}
+          {/* <Home /> */}
+        </>
       </Route>
-      <PrivateRoute path="/join/meet/:id" authenticated={authenticated}>
-        <Conference />
-      </PrivateRoute>
-      <PrivateRoute path="/meet" authenticated={authenticated}>
-        <Box>
-          <Navbar authenticated={authenticated} />
-          <Meet />
-        </Box>
-      </PrivateRoute>
       <PublicRoute path="/login" authenticated={authenticated}>
         <Login />
       </PublicRoute>
@@ -84,6 +82,14 @@ const App = () => {
       <PublicRoute path="/reset" authenticated={authenticated}>
         <ForgotPassword />
       </PublicRoute>
+
+      <PrivateRoute path="/join/meet/:id" authenticated={authenticated}>
+        <Conference />
+      </PrivateRoute>
+
+      <PrivateRoute authenticated={authenticated}>
+        <Dashboard />
+      </PrivateRoute>
     </Switch>
   );
 };

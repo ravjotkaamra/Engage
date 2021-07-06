@@ -46,7 +46,7 @@ const Home = () => {
             Meet, chat, call, and collaborate in just one place.
           </chakra.span>
         </chakra.h2>
-        <chakra.p
+        <Box
           mb={6}
           fontSize={{ base: 'lg', md: 'xl' }}
           color={useColorModeValue('black.100', 'gray.300')}
@@ -68,7 +68,7 @@ const Home = () => {
               features like group calling, cloud voicemail, and call transfers.
             </ListItem>
           </List>
-        </chakra.p>
+        </Box>
         <Stack
           direction={{ base: 'column', sm: 'row' }}
           mb={{ base: 4, md: 8 }}
