@@ -335,7 +335,7 @@ export default function Navbar({ authenticated }) {
             <Flex>
               <HStack spacing="5" display={{ base: 'none', md: 'flex' }}>
                 <Button
-                  onClick={() => history.push('/meet')}
+                  onClick={() => history.push('/teams')}
                   bg={bg}
                   color="gray.500"
                   display="inline-flex"

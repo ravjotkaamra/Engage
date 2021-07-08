@@ -77,7 +77,7 @@ const Home = () => {
           <Box display="inline-flex" rounded="md" shadow="md" width="md">
             <chakra.button
               fontSize="xl"
-              onClick={() => history.push('/meet')}
+              onClick={() => history.push('/teams')}
               display="inline-flex"
               alignItems="center"
               justifyContent="center"

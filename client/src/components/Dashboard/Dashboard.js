@@ -101,7 +101,7 @@ const Dashboard = () => {
           />
           <InputGroup w="96" display={{ base: 'none', md: 'flex' }}>
             <InputLeftElement color="gray.500" children={<FiSearch />} />
-            <Input placeholder="Search for articles..." />
+            <Input placeholder="Search for people or teams" />
           </InputGroup>
 
           <Flex align="center">

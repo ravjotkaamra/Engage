@@ -2,6 +2,8 @@ import { Switch } from 'react-router';
 import React from 'react';
 import Meet from '../../pages/Meet';
 import { Route } from 'react-router-dom';
+import ChatRoom from '../../pages/Chat/ChatRoom';
+import Teams from '../../pages/Teams/Teams';
 
 const DashRoutes = () => {
   return (
@@ -10,10 +12,10 @@ const DashRoutes = () => {
         <Meet />
       </Route>
       <Route path="/chat">
-        {/* <Chat /> */}i am the chat
-        </Route>
-      <Route path="/teams"> 
-      {/* <Chat /> */}iteams here
+        <ChatRoom teamId="oSxBnr3cKzREXcmEtOgV" />
+      </Route>
+      <Route path="/teams">
+        <Teams />
       </Route>
     </Switch>
   );
