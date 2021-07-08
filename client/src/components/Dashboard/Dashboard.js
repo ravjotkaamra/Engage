@@ -46,10 +46,29 @@ justifyContent="space-between"
 
 import Sidebar from './Sidebar';
 import DashRoutes from './DashRoutes';
+import { useFirestoreConnect } from 'react-redux-firebase';
+import { useSelector } from 'react-redux';
 
 const Dashboard = () => {
   const [navSize, changeNavSize] = useState('small');
   const sidebar = useDisclosure();
+
+  const user = useSelector(({ firebase }) => ({
+    uid: firebase.auth.uid,
+    photoURL: firebase.auth.photoURL,
+    ...firebase.profile,
+  }));
+
+  console.log('user :>> ', user);
+  // populate whatever teams logged in user has joined with teams details
+  const populates = [{ child: 'teams', root: 'teams' }];
+  useFirestoreConnect([
+    {
+      collection: 'users',
+      doc: user.uid,
+      populates,
+    },
+  ]);
 
   return (
     <Box
@@ -58,6 +77,7 @@ const Dashboard = () => {
       minH="100vh"
     >
       <Sidebar
+        user={user}
         navSize={navSize}
         changeNavSize={changeNavSize}
         display={{ base: 'none', md: 'unset' }}
@@ -70,6 +90,7 @@ const Dashboard = () => {
         <DrawerOverlay />
         <DrawerContent>
           <Sidebar
+            user={user}
             navSize={navSize}
             changeNavSize={changeNavSize}
             w="small"
@@ -109,8 +130,8 @@ const Dashboard = () => {
             <Avatar
               ml="4"
               size="sm"
-              name="anubra266"
-              src="https://avatars.githubusercontent.com/u/30869823?v=4"
+              name={user.displayName}
+              src={user.photoURL}
               cursor="pointer"
             />
           </Flex>

@@ -1,8 +1,11 @@
 import React from 'react';
 import { chakra, Box, useColorModeValue } from '@chakra-ui/react';
 import TeamAvatar from './TeamAvatar';
+import { useHistory } from 'react-router-dom';
 
-const TeamCard = ({teamName}) => {
+const TeamCard = ({ teamName, teamId }) => {
+  const history = useHistory();
+
   return (
     <Box
       as="button"
@@ -16,6 +19,7 @@ const TeamCard = ({teamName}) => {
         color: 'teal.500',
       }}
       rounded="xl"
+      onClick={() => history.push(`/teams/${teamId}`)}
     >
       <TeamAvatar
         src={

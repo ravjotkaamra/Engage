@@ -33,7 +33,7 @@ const ChatBox = ({ teamId }) => {
           placeholder="Type a new message"
         />
 
-        <button class="chat-btn" type="submit" disabled={!formValue}>
+        <button className="chat-btn" type="submit" disabled={!formValue}>
           🕊️
         </button>
       </form>

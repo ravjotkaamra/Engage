@@ -13,9 +13,19 @@ import JoinOrCreateBtn from './JoinOrCreateBtn';
 import { useSelector } from 'react-redux';
 
 const Teams = () => {
+  // const { uid } = useSelector(({ firebase }) => firebase.auth);
   // get the teams which the current logged in user has joined
-  const { teams } = useSelector(({ firebase }) => firebase.profile);
+  const teams = useSelector(({ firestore }) => {
+    // convert the teams object into teams array
+    // for easy iteration
+    const teams = firestore.data.teams;
+    if (!teams) {
+      return null;
+    }
+    return Object.entries(teams).map(([key, val]) => val);
+  });
 
+  console.log('teams :>> ', teams);
   return (
     <Flex
       flexDir="column"
@@ -57,7 +67,7 @@ const Teams = () => {
           spacingY={20}
         >
           {teams?.map((team) => (
-            <TeamCard teamName={team} />
+            <TeamCard teamName={team.name} teamId={team.id} key={team.id} />
           ))}
         </SimpleGrid>
       </Flex>

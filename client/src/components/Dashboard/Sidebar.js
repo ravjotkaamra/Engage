@@ -3,13 +3,19 @@ import { FiMenu, FiHome, FiSettings } from 'react-icons/fi';
 import { AiOutlineVideoCameraAdd } from 'react-icons/ai';
 import { SiMicrosoftteams } from 'react-icons/si';
 import { MdChat } from 'react-icons/md';
-import { Avatar, Box, Flex, Heading, IconButton, Image, Text } from '@chakra-ui/react';
+import {
+  Avatar,
+  Box,
+  Flex,
+  Heading,
+  IconButton,
+  Image,
+  Text,
+} from '@chakra-ui/react';
 import TeamsLogo from '../../assets/Microsoft_Office_Teams.svg';
 import SideItem from './SideItem';
 
-const SidebarContent = (props) => {
-  const { navSize, changeNavSize } = props;
-
+const Sidebar = ({ user, navSize, changeNavSize, ...rest }) => {
   return (
     <Box
       as="nav"
@@ -26,7 +32,7 @@ const SidebarContent = (props) => {
       borderRightWidth="1px"
       // w="60"
       w={navSize === 'small' ? '20' : '60'}
-      {...props}
+      {...rest}
     >
       <Flex
         flexDir="column"
@@ -82,16 +88,18 @@ const SidebarContent = (props) => {
           mb={4}
         >
           <Flex mt={4} align="center">
-            <Avatar size="sm" src="" />
+            <Avatar size="md" src={user.photoURL} />
             <Flex
               flexDir="column"
               ml={4}
               display={navSize === 'small' ? 'none' : 'flex'}
             >
               <Heading as="h3" color="whiteAlpha.900" size="sm">
-                Sylwia Weller
+                {user.displayName}
               </Heading>
-              <Text color="gray">Welcome</Text>
+              <Text fontSize="xs" color="gray.300">
+                {user.email}
+              </Text>
             </Flex>
           </Flex>
 
@@ -122,4 +130,4 @@ const SidebarContent = (props) => {
   );
 };
 
-export default SidebarContent;
+export default Sidebar;

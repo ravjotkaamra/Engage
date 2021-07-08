@@ -45,7 +45,7 @@ import Skelton from './pages/Skelton';
 import Conference from './pages/Conference';
 import Navbar from './components/Header/Navbar';
 import Home from './pages/Home';
-import SidebarTemp from './components/Dashboard/SidebarTemporary';
+// import SidebarTemp from './components/Dashboard/SidebarTemporary';
 // import Side from './components/Side';
 import Dashboard from './components/Dashboard/Dashboard';
 // import ChatRoom from './pages/Chat/ChatRoom';
@@ -68,7 +68,8 @@ const App = () => {
       <Route path="/about" exact>
         {/* <ChatRoom teamId="oSxBnr3cKzREXcmEtOgV" /> */}
         <>
-          <SidebarTemp />
+        hello
+          {/* <SidebarTemp /> */}
           {/* <Side /> */}
           {/* <Home /> */}
         </>
