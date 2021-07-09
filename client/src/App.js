@@ -48,6 +48,8 @@ import Home from './pages/Home';
 // import SidebarTemp from './components/Dashboard/SidebarTemporary';
 // import Side from './components/Side';
 import Dashboard from './components/Dashboard/Dashboard';
+// import ChatRoom from './pages/Experimental/ChatRoom';
+import ChatRoom from './pages/Chat/ChatRoom';
 // import ChatRoom from './pages/Chat/ChatRoom';
 const App = () => {
   const auth = useSelector((state) => state.firebase.auth);
@@ -68,7 +70,8 @@ const App = () => {
       <Route path="/about" exact>
         {/* <ChatRoom teamId="oSxBnr3cKzREXcmEtOgV" /> */}
         <>
-        hello
+          <ChatRoom />
+          {/* <ChatRoom teamId="oSxBnr3cKzREXcmEtOgV" /> */}
           {/* <SidebarTemp /> */}
           {/* <Side /> */}
           {/* <Home /> */}

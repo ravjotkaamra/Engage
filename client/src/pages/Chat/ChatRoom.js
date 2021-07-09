@@ -1,44 +1,60 @@
-import React, { useRef, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { useFirestoreConnect } from 'react-redux-firebase';
-import ChatBox from './ChatBox';
-import ChatMessage from './ChatMessage';
-import '../../App.css';
+import { HStack, Flex, useDisclosure } from '@chakra-ui/react';
+import ChatHistorySidebar from './ChatHistory/ChatHistorySidebar';
+import ChatBox from './ChatBox/ChatBox';
+// import ChatFiles from './ChatFiles/ChatFiles';
+import ChatHistoryDrawer from './ChatHistory/ChatHistoryDrawer';
+// import ChatFilesDrawer from './ChatFiles/ChatFilesDrawer';
 
-const ChatRoom = ({ teamId }) => {
-  // connect to the firestore messages
-  useFirestoreConnect([
-    {
-      collection: 'teams',
-      doc: teamId,
-      subcollections: [
-        { collection: 'messages', orderBy: 'sentAt', limit: '10' },
-      ],
-      storeAs: 'messages',
-    },
-  ]);
-  // get the messages from the redux store
-  const messages = useSelector(
-    ({ firestore: { ordered } }) => ordered.messages
-  );
-  console.log('messages :>> ', messages);
-
-  // auto scroll
-  const dummy = useRef();
-  useEffect(() => {
-    dummy.current.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
-
+const ChatRoom = () => {
+  const {
+    isOpen: isChatHistoryOpen,
+    onOpen: onChatHistoryOpen,
+    onClose: onChatHistoryClose,
+  } = useDisclosure();
+  // const {
+  //   isOpen: isChatFilesOpen,
+  //   onOpen: onChatFilesOpen,
+  //   onClose: onChatFilesClose,
+  // } = useDisclosure();
   return (
-    <section className="chat-room">
-      <main className="chat-content">
-        {messages?.map((msg) => (
-          <ChatMessage key={msg.id} message={msg} />
-        ))}
-        <span ref={dummy}></span>
-      </main>
-      <ChatBox teamId={teamId} />
-    </section>
+    <HStack h="80vh" spacing={0}>
+      <Flex
+        as="aside"
+        h="full"
+        maxW={{ base: 'xs', xl: 'sm' }}
+        display={{ base: 'none', lg: 'flex' }}
+        w="full"
+        borderRightColor="gray.100"
+        borderRightWidth={1}
+        pt={8}
+      >
+        <ChatHistorySidebar />
+      </Flex>
+      <Flex
+        as="main"
+        h="full"
+        flex={1}
+        borderRightColor="gray.100"
+        borderRightWidth={1}
+      >
+        <ChatBox onChatHistoryOpen={onChatHistoryOpen} />
+      </Flex>
+      {/* <Flex
+        as="aside"
+        h="full"
+        maxW={{ base: 'xs', xl: 'sm' }}
+        display={{ base: 'none', lg: 'flex' }}
+        w="full"
+      >
+        <ChatFiles />
+      </Flex> */}
+
+      <ChatHistoryDrawer
+        isOpen={isChatHistoryOpen}
+        onClose={onChatHistoryClose}
+      />
+      {/* <ChatFilesDrawer isOpen={isChatFilesOpen} onClose={onChatFilesClose} /> */}
+    </HStack>
   );
 };
 
