@@ -15,15 +15,14 @@ import { useParams } from 'react-router-dom';
 import chatImage from '../../../assets/chat-home.svg';
 import ChatMessages from './ChatMessages';
 
-
-const ChatBox = ({ onChatHistoryOpen, onChatFilesOpen }) => {
-  const { teamId, meetId } = useParams();
-
-  const chatLabel = teamId
-    ? 'Chatting with'
-    : 'Search for people or chat history';
-  const chatInfo = teamId ? 'Dina Harrison' : 'Chat with your Friends';
-
+const ChatBox = ({
+  onChatHistoryOpen,
+  onChatFilesOpen,
+  chatLabel,
+  chatInfo,
+  messages,
+}) => {
+  const { teamId } = useParams();
   return (
     <Flex w="full" flexDirection="column">
       <HStack px={4} py={4} borderBottomColor="gray.100" borderBottomWidth={1}>
@@ -33,12 +32,14 @@ const ChatBox = ({ onChatHistoryOpen, onChatFilesOpen }) => {
           icon={<HiChat />}
           aria-label="Toggle Chat History Drawer"
         />
-        <IconButton
-          onClick={onChatFilesOpen}
-          display={{ base: 'inherit', lg: 'none' }}
-          icon={<IoDocuments />}
-          aria-label="Toggle Chat Files Drawer"
-        />
+        {onChatFilesOpen ? (
+          <IconButton
+            onClick={onChatFilesOpen}
+            display={{ base: 'inherit', lg: 'none' }}
+            icon={<IoDocuments />}
+            aria-label="Toggle Chat Files Drawer"
+          />
+        ) : null}
       </HStack>
       <VStack h="full" alignItems="left" w="full" spacing={6}>
         <Stat mt={6}>
@@ -57,7 +58,7 @@ const ChatBox = ({ onChatHistoryOpen, onChatFilesOpen }) => {
         </Stat>
         {/* print chat messages */}
         {teamId ? (
-          <ChatMessages teamId={teamId} meetId={meetId} />
+          <ChatMessages messages={messages} />
         ) : (
           <Image
             w="full"

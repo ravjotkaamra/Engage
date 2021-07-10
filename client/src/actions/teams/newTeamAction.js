@@ -27,6 +27,7 @@ export const createNewTeam = (teamName, description) => {
         createdBy: uid,
         createdAt: firestore.FieldValue.serverTimestamp(),
         members: [uid],
+        recentMessage: {}
       });
 
       console.log('response :>> ', team.id);

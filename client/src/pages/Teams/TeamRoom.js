@@ -3,7 +3,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import JoinTeamAlert from './JoinTeamAlert';
-import { isLoaded } from 'react-redux-firebase';
+import { isLoaded, useFirestoreConnect } from 'react-redux-firebase';
 import ChatHistorySidebar from '../Chat/ChatHistory/ChatHistorySidebar';
 import ChatHistoryDrawer from '../Chat/ChatHistory/ChatHistoryDrawer';
 import ChatBox from '../Chat/ChatBox/ChatBox';
@@ -23,6 +23,20 @@ const Team = () => {
     onClose: onChatFilesClose,
   } = useDisclosure();
 
+  // connect to the firestore messages
+  useFirestoreConnect([
+    {
+      collection: 'teams',
+      doc: teamId,
+      subcollections: [{ collection: 'messages', orderBy: 'sentAt' }],
+      storeAs: 'messages',
+    },
+  ]);
+  // get the messages from the redux store
+  const messages = useSelector(
+    ({ firestore: { ordered } }) => ordered.messages
+  );
+  console.log('messages :>> ', messages);
   // get all the teams which the current logged in user is a part of
   const { teams: teamsObj } = useSelector(({ firestore }) => firestore.data);
   if (!isLoaded(teamsObj)) {
@@ -39,34 +53,36 @@ const Team = () => {
   const myTeams = Object.entries(teamsObj).map(([key, val]) => val);
   console.log('myTeams :>> ', myTeams);
 
-  const chatRows = myTeams.map((team) => {
-    console.log('team :>> ', team);
-    let { sentAt, sentBy, text } = team.recentMessage;
+  const chatRows = myTeams
+    .filter((team) => team?.isPrivate === false)
+    .map((team) => {
+      console.log('team :>> ', team);
+      let { sentAt, sentBy, text } = team.recentMessage;
 
-    // if recent message is there, then
-    // get date from seconds and nanoseconds
-    if (sentAt) {
-      const fireBaseTime = new Date(
-        sentAt.seconds * 1000 + sentAt.nanoseconds / 1000000
-      );
-      sentAt = `${fireBaseTime.toDateString()} ${fireBaseTime.toLocaleTimeString()}`;
+      // if recent message is there, then
+      // get date from seconds and nanoseconds
+      if (sentAt) {
+        const fireBaseTime = new Date(
+          sentAt.seconds * 1000 + sentAt.nanoseconds / 1000000
+        );
+        sentAt = `${fireBaseTime.toDateString()} ${fireBaseTime.toLocaleTimeString()}`;
 
-      // since recent message is defined because of sent at
-      // other fields will also be defined, so get the name of
-      // the sender and text message
-      text = `${sentBy.displayName}: ${text}`;
-    }
+        // since recent message is defined because of sent at
+        // other fields will also be defined, so get the name of
+        // the sender and text message
+        text = `${sentBy.displayName}: ${text}`;
+      }
 
-    return {
-      // photoURL: "",
-      chatSender: team.name,
-      chatText: text,
-      chatURL: `/teams/${team.id}`,
-      sentAt,
-      key: team.id,
-      highlight: team.id === teamId,
-    };
-  });
+      return {
+        // photoURL: "",
+        chatSender: team.name,
+        chatText: text,
+        chatURL: `/teams/${team.id}`,
+        sentAt,
+        key: team.id,
+        highlight: team.id === teamId,
+      };
+    });
 
   return (
     <HStack h="80vh" spacing={0}>
@@ -96,6 +112,9 @@ const Team = () => {
         <ChatBox
           onChatHistoryOpen={onChatHistoryOpen}
           onChatFilesOpen={onChatFilesOpen}
+          chatLabel="Team Name"
+          chatInfo={team.name}
+          messages={messages}
         />
       </Flex>
       <Flex
@@ -111,6 +130,9 @@ const Team = () => {
       <ChatHistoryDrawer
         isOpen={isChatHistoryOpen}
         onClose={onChatHistoryClose}
+        chatHeading="Teams"
+        chatSearchPlaceholder="Search for teams"
+        chatRows={chatRows}
       />
       <ChatFilesDrawer isOpen={isChatFilesOpen} onClose={onChatFilesClose} />
     </HStack>

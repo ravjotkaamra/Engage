@@ -4,7 +4,7 @@ import Meet from '../../pages/Meet';
 import { Route } from 'react-router-dom';
 import Teams from '../../pages/Teams/Teams';
 import TeamRoom from '../../pages/Teams/TeamRoom';
-import ChatRoom from '../../pages/Chat/ChatRoom';
+import ChatRouteHandler from '../../pages/Chat/ChatRouteHandler';
 
 const DashRoutes = () => {
   return (
@@ -13,10 +13,10 @@ const DashRoutes = () => {
         <Meet />
       </Route>
       <Route path="/chat" exact>
-        <ChatRoom />
+        <div>hello world</div>
       </Route>
       <Route path="/chat/:teamId" exact>
-        <ChatRoom />
+        <ChatRouteHandler />
       </Route>
       <Route path="/teams" exact>
         <Teams />

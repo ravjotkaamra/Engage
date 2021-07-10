@@ -6,13 +6,13 @@ import {
 } from '@chakra-ui/react';
 import ChatHistorySidebar from './ChatHistorySidebar';
 
-const ChatHistoryDrawer = ({ isOpen, onClose }) => {
+const ChatHistoryDrawer = ({ isOpen, onClose, ...rest }) => {
   return (
     <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
       <DrawerOverlay>
         <DrawerContent pt={8}>
           <DrawerCloseButton />
-          <ChatHistorySidebar />
+          <ChatHistorySidebar {...rest} />
         </DrawerContent>
       </DrawerOverlay>
     </Drawer>

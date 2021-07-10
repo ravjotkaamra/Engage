@@ -66,9 +66,11 @@ const Teams = () => {
           spacingX={{ base: 16, lg: 24 }}
           spacingY={20}
         >
-          {teams?.map((team) => (
-            <TeamCard teamName={team.name} teamId={team.id} key={team.id} />
-          ))}
+          {teams
+            ?.filter((team) => !team.isPrivate)
+            .map((team) => (
+              <TeamCard teamName={team.name} teamId={team.id} key={team.id} />
+            ))}
         </SimpleGrid>
       </Flex>
     </Flex>

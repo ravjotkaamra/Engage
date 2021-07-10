@@ -65,7 +65,6 @@ const Dashboard = () => {
   useFirestoreConnect([
     {
       collection: 'users',
-      doc: user.uid,
       populates,
     },
   ]);

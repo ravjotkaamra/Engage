@@ -75,12 +75,21 @@ const ChatHistorySidebar = ({
   chatRows,
 }) => {
   const [searchText, setSearchText] = useState('');
-  // const filteredChatRows = chatRows.filter(chatRow => chatRow);
+  console.log('chatRows :>> ', chatRows);
 
-  const handleSearch = (e) => {
-    setSearchText(e.target.value);
+  const checkIfStringMatches = (string) => {
+    return string
+      ?.toUpperCase()
+      .includes(searchText.slice().trim().toUpperCase());
   };
-  console.log(searchText);
+
+  // filter the chat rows on the basis of text input
+  const filteredChatRows = chatRows?.filter(
+    ({ chatText, chatSender }) =>
+      checkIfStringMatches(chatText) || checkIfStringMatches(chatSender)
+  );
+  console.log('filteredChatRows :>> ', filteredChatRows);
+
   return (
     <VStack h="full" alignItems="center" w="full" spacing={6}>
       <Box px={8} w="full">
@@ -93,14 +102,14 @@ const ChatHistorySidebar = ({
           minH={10}
           value={searchText}
           rounded="full"
-          onChange={handleSearch}
+          onChange={(e) => setSearchText(e.target.value)}
           placeholder={chatSearchPlaceholder}
         />
       </Box>
       <Box w="full" overflowY="auto">
         <List w="full" spacing={0}>
-          {chatRows.map((chatRow) => (
-            <ListItem>
+          {filteredChatRows.map((chatRow) => (
+            <ListItem key={chatRow.key}>
               <ChatRow {...chatRow} />
             </ListItem>
           ))}
