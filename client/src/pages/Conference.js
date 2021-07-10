@@ -3,38 +3,37 @@ import { useSelector } from 'react-redux';
 import { isEmpty, isLoaded, useFirestoreConnect } from 'react-redux-firebase';
 import { useHistory, useParams } from 'react-router-dom';
 import Skelton from './Skelton';
-import {
-  Box,
-  Center,
-  createStandaloneToast,
-} from '@chakra-ui/react';
+import { Box, Center, createStandaloneToast } from '@chakra-ui/react';
 import theme from '../theme';
 import VideoCall from '../components/VideoCall';
 import InviteBtn from '../components/InviteBtn';
 
 const Conference = () => {
-  const meetId = useParams().id;
+  const { meetId, teamId } = useParams();
   const history = useHistory();
   const toast = createStandaloneToast({ theme });
-  const user = useSelector((state) => state.firebase.auth);
+  const { uid: loggedInUid } = useSelector((state) => state.firebase.auth);
+  const { teams: myTeams } = useSelector((state) => state.firebase.profile);
 
-  // sync meetings collection from Firestore into redux
+  // sync meetings sub-collection withing teams supercollection from Firestore into redux
   useFirestoreConnect([
     {
-      collection: 'meetings',
-      doc: meetId,
+      collection: 'teams',
+      doc: teamId,
+      subcollections: [{ collection: 'meetings', doc: meetId }],
+      storeAs: 'meeting',
     },
   ]);
+
   // Get the meeting from redux state
-  const meeting = useSelector(
-    ({ firestore: { data } }) => data.meetings && data.meetings[meetId]
-  );
+  const { meeting } = useSelector(({ firestore }) => firestore.data);
   console.log('meeting :>> ', meeting);
 
   // Show skelton while meeting is loading
   if (!isLoaded(meeting)) {
     return <Skelton />;
   }
+
   // Show errormessage if there is no such meeting
   if (isEmpty(meeting)) {
     history.push('/meet');
@@ -52,9 +51,8 @@ const Conference = () => {
 
   // check if the user is invited to the current meeting
   const isInvited =
-    meeting.host.email === user.email ||
-    (meeting.participants &&
-      meeting.participants.find((p) => p.email === user.email));
+    myTeams.find((tid) => tid === teamId) ||
+    meeting.invitees.find((inviteeId) => inviteeId === loggedInUid);
 
   if (!isInvited) {
     history.push('/meet');
@@ -74,7 +72,7 @@ const Conference = () => {
     <Box h="100vh" bg="gray.800">
       <Center>
         <Center>
-          <InviteBtn meetId={meetId}/>
+          <InviteBtn teamId={teamId} meetId={meetId} />
         </Center>
       </Center>
       <Center>

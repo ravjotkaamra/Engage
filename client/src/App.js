@@ -87,7 +87,10 @@ const App = () => {
         <ForgotPassword />
       </PublicRoute>
 
-      <PrivateRoute path="/join/meet/:id" authenticated={authenticated}>
+      <PrivateRoute
+        path="/join/meet/:meetId/teams/:teamId"
+        authenticated={authenticated}
+      >
         <Conference />
       </PrivateRoute>
 

@@ -5,32 +5,23 @@ const toast = createStandaloneToast({ theme });
 export const login = (email, password) => {
   return async (dispatch, getState, { getFirebase }) => {
     const firebase = getFirebase();
-    let toastObj;
     try {
       // use firebase object to login with email and password
       const userCredential = await firebase.login({ email, password });
-      const name = getState().firebase.auth.displayName;
-      toastObj = {
-        title: 'Logged in',
-        description: `Welcome ${name}!`,
-        status: 'success',
-      };
+
       console.log('user information: >>', userCredential);
     } catch (error) {
-      toastObj = {
+      toast({
         title: 'Wrong Credentials',
         description: 'Wrong email or password is incorrect',
         status: 'error',
-      };
+        position: 'top',
+        duration: 5000,
+        isClosable: true,
+        variant: 'left-accent',
+      });
       console.log('trouble signing in', error);
     }
-    toast({
-      ...toastObj,
-      position: 'top',
-      duration: 5000,
-      isClosable: true,
-      variant: 'left-accent',
-    });
   };
 };
 

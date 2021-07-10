@@ -1,8 +1,10 @@
 import {
+  Button,
   Flex,
   HStack,
   IconButton,
   Image,
+  Spacer,
   Stat,
   StatLabel,
   StatNumber,
@@ -10,10 +12,12 @@ import {
 } from '@chakra-ui/react';
 import { HiChat } from 'react-icons/hi';
 import { IoDocuments } from 'react-icons/io5';
-
-import { useParams } from 'react-router-dom';
 import chatImage from '../../../assets/chat-home.svg';
 import ChatMessages from './ChatMessages';
+import { AiOutlineVideoCameraAdd } from 'react-icons/ai';
+import { useDispatch } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
+import { createNewTeamMeeting } from '../../../actions/meeting/private';
 
 const ChatBox = ({
   onChatHistoryOpen,
@@ -22,7 +26,11 @@ const ChatBox = ({
   chatInfo,
   messages,
 }) => {
+  // for creating new meetings
+  const dispatch = useDispatch();
+  const history = useHistory();
   const { teamId } = useParams();
+
   return (
     <Flex w="full" flexDirection="column">
       <HStack px={4} py={4} borderBottomColor="gray.100" borderBottomWidth={1}>
@@ -40,6 +48,26 @@ const ChatBox = ({
             aria-label="Toggle Chat Files Drawer"
           />
         ) : null}
+        <Spacer />
+        <Flex alignSelf="right">
+          <Button
+            onClick={() => dispatch(createNewTeamMeeting(teamId, history))}
+            leftIcon={<AiOutlineVideoCameraAdd />}
+            transition="0.5s"
+            bgGradient="linear(to-r, #2b5876 0%, #4e4376  51%, #2b5876  100%)"
+            color="gray.100"
+            p={3}
+            fontWeight="semibold"
+            rounded="sm"
+            shadow="md"
+            _hover={{
+              color: 'white',
+              bgPosition: ' right center',
+            }}
+          >
+            Meet now
+          </Button>
+        </Flex>
       </HStack>
       <VStack h="full" alignItems="left" w="full" spacing={6}>
         <Stat mt={6}>
@@ -56,8 +84,8 @@ const ChatBox = ({
             {chatInfo}
           </StatNumber>
         </Stat>
-        {/* print chat messages */}
-        {teamId ? (
+        {/* print chat messages if it exists*/}
+        {messages ? (
           <ChatMessages messages={messages} />
         ) : (
           <Image

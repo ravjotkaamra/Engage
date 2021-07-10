@@ -1,4 +1,4 @@
-import { VStack, Box, Text, HStack, Heading, Divider } from '@chakra-ui/react';
+import { VStack, Box, Text, HStack, Heading } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
 import UserAvatar from '../UserAvatar';
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Box, ButtonGroup, IconButton } from '@chakra-ui/react';
+import { Box, ButtonGroup, Icon, IconButton } from '@chakra-ui/react';
 import { ImPhoneHangUp } from 'react-icons/im';
 import {
   FaMicrophone,
@@ -8,8 +8,9 @@ import {
   FaVideo,
   FaVideoSlash,
 } from 'react-icons/fa';
+import { MdChat } from 'react-icons/md';
 
-const Controls = ({ tracks, setStart, useClient }) => {
+const Controls = ({ tracks, setStart, useClient, onOpen }) => {
   const client = useClient();
   const [trackState, setTrackState] = useState({ video: true, audio: true });
   const history = useHistory();
@@ -38,32 +39,48 @@ const Controls = ({ tracks, setStart, useClient }) => {
   };
 
   return (
-    <Box className="controls">
-    <ButtonGroup variant="solid" spacing={5} px={4}>
-      <IconButton
-        className={trackState.audio ? 'on' : ''}
-        onClick={() => mute('video')}
-        colorScheme="blackAlpha"
-        aria-label="Toggle Video Camera"
-        icon={trackState.video ? <FaVideo /> : <FaVideoSlash />}
-        padding={4}
-      />
-      <IconButton
-        className={trackState.audio ? 'on' : ''}
-        onClick={() => mute('audio')}
-        colorScheme="blackAlpha"
-        aria-label="Toggle microphone"
-        icon={trackState.audio ? <FaMicrophone /> : <FaMicrophoneSlash />}
-        padding={4}
-      />
-      <IconButton
-        onClick={() => leaveChannel()}
-        colorScheme="red"
-        aria-label="hangup call"
-        icon={<ImPhoneHangUp />}
-        padding={4}
-      />
-    </ButtonGroup>
+    <Box
+      position="fixed"
+      bottom={10}
+      right={10}
+      m="auto"
+      textAlign="center"
+      alignItems="center"
+      justifyItems="center"
+      w="100%"
+    >
+      <ButtonGroup variant="solid">
+        <IconButton
+          className={trackState.audio ? 'on' : ''}
+          onClick={() => mute('video')}
+          colorScheme="blackAlpha"
+          aria-label="Toggle Video Camera"
+          icon={trackState.video ? <FaVideo /> : <FaVideoSlash />}
+          padding={4}
+        />
+        <IconButton
+          className={trackState.audio ? 'on' : ''}
+          onClick={() => mute('audio')}
+          colorScheme="blackAlpha"
+          aria-label="Toggle microphone"
+          icon={trackState.audio ? <FaMicrophone /> : <FaMicrophoneSlash />}
+          padding={4}
+        />
+        <IconButton
+          onClick={onOpen}
+          colorScheme="blackAlpha"
+          aria-label="Chat Modal"
+          icon={<Icon as={MdChat} boxSize={5} />}
+          padding={4}
+        />
+        <IconButton
+          onClick={() => leaveChannel()}
+          colorScheme="red"
+          aria-label="hangup call"
+          icon={<ImPhoneHangUp />}
+          padding={4}
+        />
+      </ButtonGroup>
     </Box>
   );
 };

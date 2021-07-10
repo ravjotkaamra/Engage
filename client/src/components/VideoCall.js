@@ -5,6 +5,8 @@ import { createClient, createMicrophoneAndCameraTracks } from 'agora-rtc-react';
 import Controls from './Controls';
 import Videos from './Videos';
 import { useSelector } from 'react-redux';
+import ChatMeetDrawer from './ChatMeetDrawer';
+import { useDisclosure } from '@chakra-ui/react';
 // constants for configuring AgoraRTC
 const agoraConfig = {
   mode: 'rtc',
@@ -79,12 +81,21 @@ const VideoCall = ({ channelName }) => {
     }
   }, [auth.uid, channelName, client, ready, tracks]);
 
+  // for opening chat drawer
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
     <Box>
       {start && tracks && <Videos remoteUsers={remoteUsers} tracks={tracks} />}
       {ready && tracks && (
-        <Controls useClient={useClient} tracks={tracks} setStart={setStart} />
+        <Controls
+          useClient={useClient}
+          tracks={tracks}
+          setStart={setStart}
+          onOpen={onOpen}
+        />
       )}
+      <ChatMeetDrawer isOpen={isOpen} onClose={onClose} />
     </Box>
   );
 };

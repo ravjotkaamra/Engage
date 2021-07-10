@@ -4,56 +4,38 @@ import { IoSend } from 'react-icons/io5';
 
 import ChatBubble from './ChatBubble';
 import { useEffect, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useFirestore } from 'react-redux-firebase';
+import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import {
+  sendMessageToTeam,
+  sendMessageToTeamMeeting,
+} from '../../../actions/teams/sendTextAction';
 
 const ChatMessages = ({ messages }) => {
+  // for sending messages
+  const dispatch = useDispatch();
+  // for taking message input
   const [formValue, setFormValue] = useState('');
-  const user = useSelector(({ firebase }) => ({
-    ...firebase.auth,
-    ...firebase.profile,
-  }));
-  const firestore = useFirestore();
+  const { teamId, meetId } = useParams();
 
-  const { teamId } = useParams();
+  const handleSendMessage = async (e) => {
+    e.preventDefault();
+    // if meet id is defined it means that we are currently in a meeting
+    // or chatting before or after meeting is over else we are just chatting
+    // within a team or with a friend (private team)
+    if (meetId) {
+      dispatch(sendMessageToTeamMeeting(teamId, meetId, formValue));
+    } else {
+      dispatch(sendMessageToTeam(teamId, formValue));
+    }
+    setFormValue('');
+  };
 
   // auto scroll
   const dummy = useRef();
   useEffect(() => {
     dummy.current.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
-
-  const handleSendMessage = async (e) => {
-    e.preventDefault();
-    const { uid, displayName, photoURL } = user;
-    const text = formValue;
-    setFormValue('');
-
-    // set the message object
-    const message = {
-      sentAt: firestore.FieldValue.serverTimestamp(),
-      sentBy: {
-        uid,
-        photoURL,
-        displayName,
-      },
-      text,
-    };
-
-    // update the message subcollecion inside team doc
-    await firestore
-      .collection('teams')
-      .doc(teamId)
-      .collection('messages')
-      .add(message);
-
-    // update the teams collection for recent message
-    await firestore.collection('teams').doc(teamId).update({
-      recentMessage: message,
-      modifiedAt: firestore.FieldValue.serverTimestamp(),
-    });
-  };
 
   return (
     <>

@@ -16,7 +16,7 @@ const ChatRouteHandler = () => {
   if (!isLoaded(teamsObj)) {
     return <div>Loading...</div>;
   }
-
+  
   // if there is no friend with the teamId send an alert
   const team = teamsObj ? teamsObj[teamId] : null;
   if (!team) {

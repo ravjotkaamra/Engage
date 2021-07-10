@@ -6,13 +6,9 @@ import {
   Stack,
   Image,
   Flex,
-  List,
-  ListItem,
-  ListIcon,
   Spacer,
 } from '@chakra-ui/react';
 
-import { MdCheckCircle } from 'react-icons/md';
 import { useHistory } from 'react-router-dom';
 import landingImage from '../assets/team-meeting-colored.svg';
 
@@ -51,23 +47,10 @@ const Home = () => {
           fontSize={{ base: 'lg', md: 'xl' }}
           color={useColorModeValue('black.100', 'gray.300')}
         >
-          <List spacing={3}>
-            <ListItem>
-              <ListIcon as={MdCheckCircle} color="brand.500" />
-              Whether it’s chat, calls, or video, anyone can engage at any time,
-              bringing everyone closer.
-            </ListItem>
-            <ListItem>
-              <ListIcon as={MdCheckCircle} color="brand.500" />
-              Share your opinion and have fun with your team. Send GIFs,
-              stickers, and emojis in a group chat or in one-to-one messages.
-            </ListItem>
-            <ListItem>
-              <ListIcon as={MdCheckCircle} color="brand.500" />
-              Make and receive calls directly in Microsoft Teams with advanced
-              features like group calling, cloud voicemail, and call transfers.
-            </ListItem>
-          </List>
+          Getting together with friends and family in Microsoft Teams is almost
+          as fun and as real as it gets without being there in person. Whether
+          it’s chat, calls, or video, anyone can engage at any time, bringing
+          everyone closer.
         </Box>
         <Stack
           direction={{ base: 'column', sm: 'row' }}

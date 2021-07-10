@@ -12,10 +12,9 @@ export const signup = (email, password, displayName) => {
         { email, password },
         { displayName, email }
       );
-      const name = getState().firebase.profile.displayName;
       toastObj = {
         title: 'Account created',
-        description: `Welcome ${name}!`,
+        description: `Welcome ${displayName}!`,
         status: 'success',
       };
       console.log('user information: >>', userCredential);
@@ -26,14 +25,14 @@ export const signup = (email, password, displayName) => {
         description: 'Wrong email or password is too short',
         status: 'error',
       };
+    } finally {
+      toast({
+        ...toastObj,
+        position: 'top',
+        duration: 5000,
+        isClosable: true,
+        variant: 'left-accent',
+      });
     }
-
-    toast({
-      ...toastObj,
-      position: 'top',
-      duration: 5000,
-      isClosable: true,
-      variant: 'left-accent',
-    });
   };
 };
