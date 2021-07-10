@@ -62,7 +62,14 @@ const ChatMessages = ({ messages }) => {
         <chakra.span ref={dummy}></chakra.span>
       </Flex>
 
-      <Flex pl={4} pr={2} py={2} borderTopColor="gray.100" borderTopWidth={1}>
+      <Flex
+        pl={4}
+        pr={2}
+        py={2}
+        borderTopColor="gray.100"
+        borderTopWidth={1}
+        bgColor="gray.50"
+      >
         <chakra.form onSubmit={handleSendMessage} w="100%">
           <HStack justifyContent="space-between">
             <Input

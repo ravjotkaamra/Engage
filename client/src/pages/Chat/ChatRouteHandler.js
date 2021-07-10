@@ -29,7 +29,7 @@ const ChatRouteHandler = () => {
       isClosable: true,
       variant: 'left-accent',
     });
-    history.push('/teams');
+    history.push('/chat');
     return null;
   }
   // convert the teams object into teams array for easy iteration

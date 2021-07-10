@@ -48,42 +48,55 @@ const ChatBox = ({
             aria-label="Toggle Chat Files Drawer"
           />
         ) : null}
-        <Spacer />
-        <Flex alignSelf="right">
-          <Button
-            onClick={() => dispatch(createNewTeamMeeting(teamId, history))}
-            leftIcon={<AiOutlineVideoCameraAdd />}
-            transition="0.5s"
-            bgGradient="linear(to-r, #2b5876 0%, #4e4376  51%, #2b5876  100%)"
-            color="gray.100"
-            p={3}
-            fontWeight="semibold"
-            rounded="sm"
-            shadow="md"
-            _hover={{
-              color: 'white',
-              bgPosition: ' right center',
-            }}
-          >
-            Meet now
-          </Button>
+        <Flex alignSelf="left">
+          <Stat>
+            <StatLabel ml={3} color="gray.500">
+              {chatLabel}
+            </StatLabel>
+            <StatNumber
+              bgGradient="linear(to-r, #10155C, #167D5B)"
+              bgClip="text"
+              fontSize="3xl"
+              fontWeight="bold"
+              ml="3"
+            >
+              {chatInfo}
+            </StatNumber>
+          </Stat>
         </Flex>
+        <Spacer />
+        {teamId ? (
+          <Flex alignSelf="right">
+            <Button
+              onClick={() => dispatch(createNewTeamMeeting(teamId, history))}
+              leftIcon={<AiOutlineVideoCameraAdd />}
+              transition="0.5s"
+              bgGradient="linear(to-r, #2b5876 0%, #4e4376  51%, #2b5876  100%)"
+              color="gray.100"
+              p={3}
+              fontWeight="semibold"
+              rounded="sm"
+              shadow="md"
+              _hover={{
+                color: 'white',
+                bgPosition: ' right center',
+              }}
+            >
+              Meet now
+            </Button>
+          </Flex>
+        ) : null}
       </HStack>
-      <VStack h="full" alignItems="left" w="full" spacing={6}>
-        <Stat mt={6}>
-          <StatLabel ml={3} color="gray.500">
-            {chatLabel}
-          </StatLabel>
-          <StatNumber
-            bgGradient="linear(to-r, #10155C, #167D5B)"
-            bgClip="text"
-            fontSize="3xl"
-            fontWeight="bold"
-            ml="3"
-          >
-            {chatInfo}
-          </StatNumber>
-        </Stat>
+      <VStack
+        h={{
+          base: '80%', // 0-48em
+          md: '90%', // 48em-80em,
+          xl: '95%', // 80em+
+        }}
+        alignItems="left"
+        w="full"
+        spacing={6}
+      >
         {/* print chat messages if it exists*/}
         {messages ? (
           <ChatMessages messages={messages} />
@@ -91,7 +104,8 @@ const ChatBox = ({
           <Image
             w="full"
             alignSelf="center"
-            boxSize="95vh"
+            boxSize="90vh"
+            mb={10}
             src={chatImage}
             alt="Teammates chatting using microsoft teams"
           />

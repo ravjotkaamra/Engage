@@ -61,6 +61,7 @@ export const sendMessageToTeamMeeting = (teamId, meetId, text) => {
       text,
     };
 
+    console.log('message sent to team meeting :>> ', message);
     try {
       // update the meeting's message subcollection inside team doc
       await firestore
@@ -68,7 +69,7 @@ export const sendMessageToTeamMeeting = (teamId, meetId, text) => {
         .doc(teamId)
         .collection('meetings')
         .doc(meetId)
-        .collection('messsages')
+        .collection('messages')
         .add(message);
 
       // update the meetings sub-collection for recent message

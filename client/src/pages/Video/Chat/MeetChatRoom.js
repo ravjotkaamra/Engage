@@ -111,9 +111,6 @@ const ChatRoom = ({ myTeams, team: currTeam }) => {
       <ChatHistoryDrawer
         isOpen={isChatHistoryOpen}
         onClose={onChatHistoryClose}
-        chatHeading="Chat"
-        chatSearchPlaceholder="Search for people or meeting"
-        chatRows={chatRows}
       />
     </HStack>
   );

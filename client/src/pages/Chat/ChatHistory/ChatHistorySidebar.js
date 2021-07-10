@@ -108,7 +108,7 @@ const ChatHistorySidebar = ({
       </Box>
       <Box w="full" overflowY="auto">
         <List w="full" spacing={0}>
-          {filteredChatRows.map((chatRow) => (
+          {filteredChatRows?.map((chatRow) => (
             <ListItem key={chatRow.key}>
               <ChatRow {...chatRow} />
             </ListItem>

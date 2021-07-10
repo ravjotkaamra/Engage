@@ -5,8 +5,10 @@ import { createClient, createMicrophoneAndCameraTracks } from 'agora-rtc-react';
 import Controls from './Controls';
 import Videos from './Videos';
 import { useSelector } from 'react-redux';
-import ChatMeetDrawer from './ChatMeetDrawer';
+import MeetChatDrawer from '../pages/Video/Chat/MeetChatDrawer';
 import { useDisclosure } from '@chakra-ui/react';
+import { useFirestoreConnect } from 'react-redux-firebase';
+import { useParams } from 'react-router-dom';
 // constants for configuring AgoraRTC
 const agoraConfig = {
   mode: 'rtc',
@@ -83,6 +85,22 @@ const VideoCall = ({ channelName }) => {
 
   // for opening chat drawer
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { teamId, meetId } = useParams();
+
+  useFirestoreConnect([
+    {
+      collection: 'teams',
+      doc: teamId,
+      subcollections: [
+        {
+          collection: 'meetings',
+          doc: meetId,
+          subcollections: [{ collection: 'messages', orderBy: 'sentAt' }],
+        },
+      ],
+      storeAs: 'messages',
+    },
+  ]);
 
   return (
     <Box>
@@ -95,7 +113,7 @@ const VideoCall = ({ channelName }) => {
           onOpen={onOpen}
         />
       )}
-      <ChatMeetDrawer isOpen={isOpen} onClose={onClose} />
+      <MeetChatDrawer isOpen={isOpen} onClose={onClose} />
     </Box>
   );
 };
