@@ -56,8 +56,14 @@ const Home = () => {
           direction={{ base: 'column', sm: 'row' }}
           mb={{ base: 4, md: 8 }}
           spacing={2}
+          py={{ base: 2, md: 4 }}
         >
-          <Box display="inline-flex" rounded="md" shadow="md" width="md">
+          <Box
+            display="inline-flex"
+            rounded="md"
+            shadow="md"
+            w={['100', 'sm', 'md', 'lg']}
+          >
             <chakra.button
               fontSize="xl"
               onClick={() => history.push('/teams')}
@@ -82,12 +88,12 @@ const Home = () => {
         </Stack>
       </Box>
       <Spacer />
-      <Box w={{ base: 'full', md: 10 / 12 }} mx="auto" textAlign="center">
+      <Box w={{ base: 'full', md: 10 / 12 }}  textAlign="center">
         <Image
           w="full"
           rounded="lg"
-          shadow="2xl"
-          boxSize="480"
+          shadow="xl"
+          boxSize={{ base: 'sm', md: 'md', lg: 'lg' }}
           src={landingImage}
           alt="Teammates talking over video conference"
         />

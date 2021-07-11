@@ -10,11 +10,13 @@ import {
   TabList,
   TabPanels,
   TabPanel,
+  HStack,
 } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import Meetings from './Meetings';
 import Participants from './Participants';
+import DescriptionForm from './DescriptionForm';
 
 const ChatFiles = () => {
   const { teamId } = useParams();
@@ -24,16 +26,14 @@ const ChatFiles = () => {
     <Flex h="full" flexDirection="column" alignItems="center" w="full" pt={8}>
       <Flex alignSelf="left">
         <Stat>
-          <StatNumber
-            bgGradient="linear(to-r, #10155C, #167D5B)"
-            bgClip="text"
-            fontSize="xl"
-            fontWeight="bold"
-            ml="3"
-          >
-            Description
-          </StatNumber>
-          <StatLabel ml={3} color="gray.700">
+          <HStack>
+            <StatNumber fontSize="lg" fontWeight="bold" ml="3">
+              Description
+            </StatNumber>
+            <DescriptionForm defaultValue={team.description} />
+          </HStack>
+
+          <StatLabel ml={3} mt={3} color="gray.700">
             {team.description}
           </StatLabel>
         </Stat>

@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, Divider, VStack, List } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
 import Participant from './Participant';
+import SearchParticipants from './SearchParticipants';
 
 const Participants = ({ memberIds }) => {
   const { users } = useSelector(({ firestore }) => firestore.ordered);
@@ -13,6 +14,7 @@ const Participants = ({ memberIds }) => {
 
   return (
     <VStack spacing={6}>
+      <SearchParticipants />
       <List spacing={4} mt={6} w="full">
         {members?.map((member) => (
           <Participant
