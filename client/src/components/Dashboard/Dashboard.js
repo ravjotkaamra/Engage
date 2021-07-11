@@ -8,42 +8,12 @@ import {
   Drawer,
   DrawerOverlay,
   DrawerContent,
-  Icon,
   InputLeftElement,
   InputGroup,
   Input,
 } from '@chakra-ui/react';
 import { Box } from '@chakra-ui/layout';
 import { FiMenu, FiSearch } from 'react-icons/fi';
-import { FaBell } from 'react-icons/fa';
-/*
-pos="sticky"
-left={0.5}
-h="95vh"
-marginTop="2.5vh"
-boxShadow="0 4px 12px 0 rgba(0, 0, 0, 0.05)"
-borderRadius={navSize === 'small' ? '15px' : '30px'}
-w={navSize === 'small' ? '75px' : '200px'}
-flexDir="column"
-bgColor="brand.500"
-justifyContent="space-between"
-*/
-
-/*
-<IconButton
-  background="brand.400"
-  color="white"
-  mt={5}
-  mb={5}
-  _hover={{ background: 'brand.300' }}
-  icon={<FiMenu />}
-  onClick={() => {
-    if (navSize === 'small') changeNavSize('large');
-    else changeNavSize('small');
-  }}
-/> 
-*/
-
 import Sidebar from './Sidebar';
 import DashRoutes from './DashRoutes';
 import { useFirestoreConnect } from 'react-redux-firebase';
@@ -59,6 +29,8 @@ const Dashboard = () => {
     ...firebase.profile,
   }));
 
+  const { teams: myTeamIds } = useSelector(({ firebase }) => firebase.profile);
+
   console.log('user :>> ', user);
   // populate whatever teams logged in user has joined with teams details
   const populates = [{ child: 'teams', root: 'teams' }];
@@ -68,6 +40,36 @@ const Dashboard = () => {
       populates,
     },
   ]);
+
+  console.log('myTeamIds :>> ', myTeamIds);
+  useFirestoreConnect(
+    myTeamIds?.map((teamId) => ({
+      collection: 'teams',
+      doc: teamId,
+      subcollections: [
+        {
+          collection: 'meetings',
+          orderBy: 'createdAt',
+        },
+      ],
+      storeAs: `meetings/${teamId}`,
+    }))
+  );
+
+  // useFirestoreConnect([
+  //   {
+  //     collectionGroup: 'meetings',
+  //     where: ['teamId', '==', 'gxGoKA2vyzZJnuM9uqyz'],
+  //     storeAs: 'meets',
+  //   },
+  // ]);
+  // const meetings = useSelector(({ firestore }) => {
+  //   return Object.entries(firestore.ordered)
+  //     .filter(([key, val]) => key.startsWith('meetings') && val.length !== 0)
+  //     .map(([key, val]) => val)
+  //     .reduce((flatten, arr) => [...flatten, ...arr]);
+  // });
+  // console.log('meetings  subcolections :>> ', meetings);
 
   return (
     <Box
@@ -125,7 +127,6 @@ const Dashboard = () => {
           </InputGroup>
 
           <Flex align="center">
-            <Icon color="gray.500" as={FaBell} cursor="pointer" />
             <Avatar
               ml="4"
               size="sm"

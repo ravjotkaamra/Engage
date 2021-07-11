@@ -1,19 +1,16 @@
-import { HStack, Box, VStack, Heading, Text } from '@chakra-ui/react';
+import { HStack, VStack, Heading, Text, Avatar } from '@chakra-ui/react';
 
-const ChatFile = () => {
+const Participant = ({ name, email, photoURL }) => {
   return (
     <HStack w="full" px={8} spacing={3}>
-      <Box w={14} h={12} rounded="lg" bg="gray.100" />
+      <Avatar sz="xs" name={name} src={photoURL} />
       <VStack spacing={0} alignItems="flex-start" w="full">
         <Heading fontSize={12} w="full">
-          PhotoDenver.jpg
+          {name}
         </Heading>
         <HStack w="full" justifyContent="space-between">
           <Text fontSize={12} color="gray.400">
-            10.03.2021 at 11:43
-          </Text>
-          <Text fontSize={12} color="gray.400">
-            175 Kb
+            {email}
           </Text>
         </HStack>
       </VStack>
@@ -21,4 +18,4 @@ const ChatFile = () => {
   );
 };
 
-export default ChatFile;
+export default Participant;

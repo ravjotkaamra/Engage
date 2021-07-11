@@ -19,6 +19,9 @@ const DashRoutes = () => {
       <Route path="/chat/:teamId" exact>
         <ChatRouteHandler />
       </Route>
+      <Route path="/chat/:teamId/meet/:meetId" exact>
+        <ChatRouteHandler />
+      </Route>
       <Route path="/teams" exact>
         <Teams />
       </Route>

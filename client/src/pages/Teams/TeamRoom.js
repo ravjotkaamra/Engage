@@ -7,8 +7,8 @@ import { isLoaded, useFirestoreConnect } from 'react-redux-firebase';
 import ChatHistorySidebar from '../Chat/ChatHistory/ChatHistorySidebar';
 import ChatHistoryDrawer from '../Chat/ChatHistory/ChatHistoryDrawer';
 import ChatBox from '../Chat/ChatBox/ChatBox';
-import ChatFilesDrawer from '../Chat/ChatFiles/ChatFilesDrawer';
-import ChatFiles from '../Chat/ChatFiles/ChatFiles';
+import ChatFilesDrawer from './ChatFiles/ChatFilesDrawer';
+import ChatFiles from './ChatFiles/ChatFiles';
 
 const Team = () => {
   const { teamId } = useParams();

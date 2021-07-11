@@ -29,7 +29,17 @@ const ChatBox = ({
   // for creating new meetings
   const dispatch = useDispatch();
   const history = useHistory();
-  const { teamId } = useParams();
+  const { teamId, meetId } = useParams();
+
+  const handleClick = () => {
+    // if we are chatting in a meet just join the meet
+    // else create a new team meeting
+    if (meetId) {
+      history.push(`/join/meet/${meetId}/teams/${teamId}`);
+    } else {
+      dispatch(createNewTeamMeeting(teamId, history));
+    }
+  };
 
   return (
     <Flex w="full" flexDirection="column">
@@ -68,7 +78,7 @@ const ChatBox = ({
         {teamId ? (
           <Flex alignSelf="right">
             <Button
-              onClick={() => dispatch(createNewTeamMeeting(teamId, history))}
+              onClick={handleClick}
               leftIcon={<AiOutlineVideoCameraAdd />}
               transition="0.5s"
               bgGradient="linear(to-r, #2b5876 0%, #4e4376  51%, #2b5876  100%)"
