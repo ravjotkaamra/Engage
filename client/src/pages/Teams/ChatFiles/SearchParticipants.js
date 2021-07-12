@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 
 const SearchParticipants = () => {
   const { users } = useSelector(({ firestore }) => firestore.ordered);
-
+  console.log('search users :>> ', users);
   return (
     <Flex p={2} justifyContent="left">
       <AutoComplete rollNavigation>

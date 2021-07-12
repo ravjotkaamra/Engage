@@ -6,15 +6,20 @@ import {
   useColorModeValue,
   Divider,
   Spacer,
+  Image,
+  VStack,
+  HStack,
+  Box,
+  Heading,
+  Text,
 } from '@chakra-ui/react';
 
 import TeamCard from './TeamCard';
 import JoinOrCreateBtn from './JoinOrCreateBtn';
 import { useSelector } from 'react-redux';
+import TeamHomeImage from '../../assets/team-home.svg';
 
 const Teams = () => {
-  // const { uid } = useSelector(({ firebase }) => firebase.auth);
-  // get the teams which the current logged in user has joined
   const teams = useSelector(({ firestore }) => {
     // convert the teams object into teams array
     // for easy iteration
@@ -25,7 +30,7 @@ const Teams = () => {
     return Object.entries(teams).map(([key, val]) => val);
   });
 
-  console.log('teams :>> ', teams);
+  console.log('teams home page :>> ', teams);
   return (
     <Flex
       flexDir="column"
@@ -60,18 +65,54 @@ const Teams = () => {
         mt={4}
         mx={5}
       >
-        <SimpleGrid
-          columns={{ base: 1, sm: 2, md: 3, lg: 4 }}
-          alignItems="center"
-          spacingX={{ base: 16, lg: 24 }}
-          spacingY={20}
-        >
-          {teams
-            ?.filter((team) => !team.isPrivate)
-            .map((team) => (
-              <TeamCard teamName={team.name} teamId={team.id} key={team.id} />
-            ))}
-        </SimpleGrid>
+        {teams ? (
+          <SimpleGrid
+            columns={{ base: 1, sm: 2, md: 3, lg: 4 }}
+            alignItems="center"
+            spacingX={{ base: 16, lg: 24 }}
+            spacingY={20}
+          >
+            {teams
+              .filter((team) => !team.isPrivate)
+              .map((team) => (
+                <TeamCard teamName={team.name} teamId={team.id} key={team.id} />
+              ))}
+          </SimpleGrid>
+        ) : (
+          <HStack
+            h={{
+              base: '80%', // 0-48em
+              md: '90%', // 48em-80em,
+              xl: '95%', // 80em+
+            }}
+            justifyContent="space-around"
+            w="full"
+          >
+            <Image
+              w="full"
+              alignSelf="center"
+              boxSize="70vh"
+              src={TeamHomeImage}
+              alt="Teams landing page to create, join and view teams"
+            />
+            <Box boxSize="xs" alignSelf="right" p={4}>
+              <Heading
+                bgGradient="linear(to-r, #6D389C, #300B61)"
+                bgClip="text"
+                fontSize="3xl"
+                fontWeight="bold"
+                as="h3"
+                textAlign="center"
+                py={4}
+              >
+                Welcome to Microsoft Teams
+              </Heading>
+              <Text fontSize="xl" textAlign="center" color="gray.700">
+                Create or join a team by clicking on the button above.
+              </Text>
+            </Box>
+          </HStack>
+        )}
       </Flex>
     </Flex>
   );

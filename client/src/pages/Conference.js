@@ -36,7 +36,7 @@ const Conference = () => {
 
   // Show errormessage if there is no such meeting
   if (isEmpty(meeting)) {
-    history.push('/meet');
+    history.push('/teams');
     toast({
       title: 'Wrong URL',
       description: 'Please enter the correct meeting url',
@@ -55,7 +55,7 @@ const Conference = () => {
     meeting.invitees.find((inviteeId) => inviteeId === loggedInUid);
 
   if (!isInvited) {
-    history.push('/meet');
+    history.push('/teams');
     toast({
       title: 'Sorry host has not invited you',
       description: 'Please contact the host for invitation link!',

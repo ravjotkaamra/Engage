@@ -30,6 +30,10 @@ export const logout = () => {
     const firebase = getFirebase();
     try {
       await firebase.logout();
+      dispatch({
+        type: '@@reduxFirestore/CLEAR_DATA',
+        preserve: { data: ['users'], ordered: ['users'] },
+      });
       console.log('user successfully logged out');
     } catch (error) {
       console.log('trouble logging out', error);

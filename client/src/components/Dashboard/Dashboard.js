@@ -31,17 +31,26 @@ const Dashboard = () => {
 
   const { teams: myTeamIds } = useSelector(({ firebase }) => firebase.profile);
 
-  console.log('user :>> ', user);
+  console.log('user dashboard:>> ', user);
   // populate whatever teams logged in user has joined with teams details
   const populates = [{ child: 'teams', root: 'teams' }];
   useFirestoreConnect([
     {
       collection: 'users',
+      doc: user?.uid,
       populates,
+      storeAs: 'loggedInUser',
+    },
+  ]);
+  useFirestoreConnect([
+    {
+      collection: 'users',
     },
   ]);
 
+  // get all the meetings of logged in user
   console.log('myTeamIds :>> ', myTeamIds);
+
   useFirestoreConnect(
     myTeamIds?.map((teamId) => ({
       collection: 'teams',

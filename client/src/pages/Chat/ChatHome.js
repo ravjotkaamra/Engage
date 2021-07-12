@@ -21,6 +21,12 @@ const ChatHome = () => {
 
   // get all the teams which the current logged in user is a part of
   const { teams: teamsObj } = useSelector(({ firestore }) => firestore.data);
+
+  // no teams
+  if (teamsObj === undefined) {
+    return <div>you dont have any team</div>
+  }
+
   if (!isLoaded(teamsObj)) {
     return <div>Loading...</div>;
   }

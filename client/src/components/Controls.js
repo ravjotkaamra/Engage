@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { Box, ButtonGroup, Icon, IconButton } from '@chakra-ui/react';
 import { ImPhoneHangUp } from 'react-icons/im';
 import {
@@ -14,6 +14,8 @@ const Controls = ({ tracks, setStart, useClient, onOpen }) => {
   const client = useClient();
   const [trackState, setTrackState] = useState({ video: true, audio: true });
   const history = useHistory();
+
+  const { teamId, meetId } = useParams();
 
   const mute = async (type) => {
     if (type === 'audio') {
@@ -35,7 +37,7 @@ const Controls = ({ tracks, setStart, useClient, onOpen }) => {
     tracks[0].close();
     tracks[1].close();
     setStart(false);
-    history.push('/meet');
+    history.push(`/chat/${teamId}/meet/${meetId}`);
   };
 
   return (
