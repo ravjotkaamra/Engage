@@ -1,5 +1,5 @@
 import React from 'react';
-import { FiMenu, FiHome, FiSettings } from 'react-icons/fi';
+import { FiMenu, FiHome, FiUser } from 'react-icons/fi';
 import { AiOutlineVideoCameraAdd } from 'react-icons/ai';
 import { SiMicrosoftteams } from 'react-icons/si';
 import { MdChat } from 'react-icons/md';
@@ -120,9 +120,10 @@ const Sidebar = ({ user, navSize, changeNavSize, ...rest }) => {
           />
           <SideItem
             navSize={navSize}
-            name="settings"
-            icon={FiSettings}
-            title="Settings"
+            name="profile"
+            icon={FiUser}
+            title="Profile"
+            url={`/profile/${user.uid}`}
           />
         </Flex>
       </Flex>

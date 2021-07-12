@@ -2,7 +2,7 @@ import React from 'react';
 import { Flex, Text, Icon, Link, Menu, MenuButton } from '@chakra-ui/react';
 import { useHistory, useLocation } from 'react-router-dom';
 
-export default function SideItem({ name, icon, title, navSize }) {
+export default function SideItem({ name, icon, title, navSize, url }) {
   const pathname = useLocation().pathname.split('/')[1];
   const active = pathname === name;
   const history = useHistory();
@@ -13,7 +13,7 @@ export default function SideItem({ name, icon, title, navSize }) {
       flexDir="column"
       w="100%"
       alignItems={navSize === 'small' ? 'center' : 'flex-start'}
-      onClick={() => history.push(`/${name}`)}
+      onClick={() => history.push(url || `/${name}`)}
     >
       <Menu placement="right">
         <Link

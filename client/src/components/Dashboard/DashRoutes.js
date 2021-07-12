@@ -4,8 +4,8 @@ import Meet from '../../pages/Meet';
 import { Route } from 'react-router-dom';
 import Teams from '../../pages/Teams/Teams';
 import TeamRoom from '../../pages/Teams/TeamRoom';
-import ChatRouteHandler from '../../pages/Chat/ChatRouteHandler';
-import ChatHome from '../../pages/Chat/ChatHome';
+import ChatTemp from '../../pages/Chat/ChatTemp';
+import Profile from '../../pages/Profile/Profile';
 
 const DashRoutes = () => {
   return (
@@ -14,19 +14,22 @@ const DashRoutes = () => {
         <Meet />
       </Route>
       <Route path="/chat" exact>
-        <ChatHome />
+        <ChatTemp />
       </Route>
       <Route path="/chat/:teamId" exact>
-        <ChatRouteHandler />
+        <ChatTemp />
       </Route>
       <Route path="/chat/:teamId/meet/:meetId" exact>
-        <ChatRouteHandler />
+        <ChatTemp />
       </Route>
       <Route path="/teams" exact>
         <Teams />
       </Route>
       <Route path="/teams/:teamId" exact>
         <TeamRoom />
+      </Route>
+      <Route path="/profile/:profileId" exact>
+        <Profile />
       </Route>
     </Switch>
   );

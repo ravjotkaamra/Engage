@@ -1,39 +1,44 @@
 // connect to the firestore messages between two friends or
 // if it is a meeting chat connect to that
 // or it could be that its home page so no need to connect (for chatbox main content)
-export const getFirestoreConnectMessageObj = (currMeetId, currTeamId) => {
-  if (currMeetId) {
-    return {
-      collection: 'teams',
-      doc: currTeamId,
-      subcollections: [
-        {
-          collection: 'meetings',
-          doc: currMeetId,
-          subcollections: [{ collection: 'messages', orderBy: 'sentAt' }],
-        },
-      ],
-      storeAs: 'messages',
-    };
+export const getFirestoreConnectMessage = (currMeetId, currTeamId) => {
+  if (currTeamId && currMeetId) {
+    return [
+      {
+        collection: 'teams',
+        doc: currTeamId,
+        subcollections: [
+          {
+            collection: 'meetings',
+            doc: currMeetId,
+            subcollections: [{ collection: 'messages', orderBy: 'sentAt' }],
+          },
+        ],
+        storeAs: 'messages',
+      },
+    ];
   } else if (currTeamId) {
-    return {
-      collection: 'teams',
-      doc: currTeamId,
-      subcollections: [{ collection: 'messages', orderBy: 'sentAt' }],
-      storeAs: 'messages',
-    };
+    return [
+      {
+        collection: 'teams',
+        doc: currTeamId,
+        subcollections: [{ collection: 'messages', orderBy: 'sentAt' }],
+        storeAs: 'messages',
+      },
+    ];
   }
 };
 
 export const getFriendChatHistory = (
-  currTeam,
+  currTeamId,
   myTeams,
   loggedInUser,
-  users
+  users,
+  currMeetId
 ) => {
   return myTeams
-    .filter((team) => team?.isPrivate === true)
-    .map((team) => {
+    ?.filter((team) => team?.isPrivate === true)
+    ?.map((team) => {
       console.log('team :>> ', team);
       let { sentAt = '', sentBy = '', text = '' } = team.recentMessage;
       // if recent message is there, then
@@ -65,12 +70,19 @@ export const getFriendChatHistory = (
         chatURL: `/chat/${team.id}`,
         sentAt,
         key: team.id,
-        highlight: team.id === currTeam.id,
+        highlight: !currMeetId && team.id === currTeamId,
       };
     });
 };
 
 export const getChatRowsForSidebar = (friendsChatHistory, meetsChatHistory) => {
+  if (!friendsChatHistory) {
+    friendsChatHistory = [];
+  }
+  if (!meetsChatHistory) {
+    meetsChatHistory = [];
+  }
+
   return [...friendsChatHistory, ...meetsChatHistory].sort((chat_1, chat_2) =>
     chat_2.sentAt?.localeCompare(chat_1.sentAt)
   );
@@ -78,7 +90,7 @@ export const getChatRowsForSidebar = (friendsChatHistory, meetsChatHistory) => {
 
 export const getFriendInPrivateChat = (currTeam, loggedInUser, users) => {
   // get the user id of the friend in the current chat
-  const friendId = currTeam.members.find(
+  const friendId = currTeam?.members.find(
     (memberId) => memberId !== loggedInUser.uid
   );
   // get the friend details from the firestore 'users' collection

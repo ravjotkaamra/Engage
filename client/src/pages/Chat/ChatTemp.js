@@ -3,14 +3,14 @@ import { HStack, Flex, useDisclosure } from '@chakra-ui/react';
 import ChatHistorySidebar from './ChatHistory/ChatHistorySidebar';
 import ChatBox from './ChatBox/ChatBox';
 import ChatHistoryDrawer from './ChatHistory/ChatHistoryDrawer';
-import { isLoaded, useFirestoreConnect } from 'react-redux-firebase';
+import { useFirestoreConnect } from 'react-redux-firebase';
 import { useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { createStandaloneToast } from '@chakra-ui/react';
 import theme from '../../theme';
 import {
   getChatRowsForSidebar,
-  getFirestoreConnectMessageObj,
+  getFirestoreConnectMessage,
   getFriendChatHistory,
   getFriendInPrivateChat,
   getMeetsChatHistory,
@@ -24,7 +24,7 @@ const ChatTemp = () => {
     onOpen: onChatHistoryOpen,
     onClose: onChatHistoryClose,
   } = useDisclosure();
-  const { currTeamId, meetId: currMeetId } = useParams();
+  const { teamId: currTeamId, meetId: currMeetId } = useParams();
   const history = useHistory();
 
   // 2. get the data from the firebase
@@ -40,14 +40,11 @@ const ChatTemp = () => {
 
   // 3. connect to firestore realtime messages
 
-  useFirestoreConnect([getFirestoreConnectMessageObj(currMeetId, currTeamId)]);
+  useFirestoreConnect(getFirestoreConnectMessage(currMeetId, currTeamId));
   // get the users and messages from the redux store
   const { users, messages } = useSelector(({ firestore }) => firestore.ordered);
   console.log('messages :>> ', messages);
 
-  if (!isLoaded(teamsObj)) {
-    return <div>Loading...</div>;
-  }
   // if there is no friend with the currTeamId send an alert
   const currTeam = teamsObj ? teamsObj[currTeamId] : null;
   // wrong url path
@@ -67,20 +64,36 @@ const ChatTemp = () => {
 
   // 4. clean the data up for rendering components
   // convert the teams object into teams array for easy iteration
-  const myTeams = Object.entries(teamsObj).map(([key, val]) => val);
+  const myTeams = teamsObj
+    ? Object.entries(teamsObj).map(([key, val]) => val)
+    : null;
 
   const friendsChatHistory = getFriendChatHistory(
-    currTeam,
+    currTeamId,
     myTeams,
     loggedInUser,
-    users
+    users,
+    currMeetId
   );
   const meetsChatHistory = getMeetsChatHistory(orderedData, currMeetId);
   const chatRows = getChatRowsForSidebar(friendsChatHistory, meetsChatHistory);
 
   console.log('chatRows in chatroom :>> ', chatRows);
+  // for printing image or messages on the chat box
+  const amIonHomePage = !currMeetId && !currTeamId;
 
-  const friend = getFriendInPrivateChat(currTeam, loggedInUser, users);
+  let chatInfo;
+  if (currMeetId && currTeamId) {
+    chatInfo = `Team: ${currTeam.name}`;
+  } else if (currTeamId) {
+    chatInfo = getFriendInPrivateChat(
+      currTeam,
+      loggedInUser,
+      users
+    )?.displayName;
+  } else if (amIonHomePage) {
+    chatInfo = 'Chat with your Friends';
+  }
 
   return (
     <HStack h="80vh" spacing={0}>
@@ -109,8 +122,12 @@ const ChatTemp = () => {
       >
         <ChatBox
           onChatHistoryOpen={onChatHistoryOpen}
-          chatLabel="Chatting with"
-          chatInfo={friend?.displayName}
+          chatLabel={
+            amIonHomePage
+              ? 'Click on chat history or search bar to'
+              : 'Chatting with'
+          }
+          chatInfo={chatInfo}
           messages={messages}
         />
       </Flex>

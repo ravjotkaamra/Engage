@@ -30,7 +30,7 @@ const ChatBubble = ({ message }) => {
           px={6}
           py={4}
           maxW={80}
-          shadow="md"
+          shadow={isMe ? 'md' : 'sm'}
           borderTopLeftRadius={32}
           borderTopRightRadius={32}
           borderBottomLeftRadius={bottomLeftRadius}

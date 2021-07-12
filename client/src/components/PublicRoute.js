@@ -6,7 +6,7 @@ const PublicRoute = ({ children, authenticated, ...rest }) => {
     <Route
       {...rest}
       render={(props) =>
-        authenticated === false ? children : <Redirect to="/meet" />
+        authenticated === false ? children : <Redirect to="/teams" />
       }
     />
   );

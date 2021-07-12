@@ -108,7 +108,7 @@ const ChatBox = ({
         spacing={6}
       >
         {/* print chat messages if it exists*/}
-        {messages ? (
+        {messages && teamId ? (
           <ChatMessages messages={messages} />
         ) : (
           <Image

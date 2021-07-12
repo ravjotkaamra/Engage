@@ -7,7 +7,6 @@ import {
   Divider,
   Spacer,
   Image,
-  VStack,
   HStack,
   Box,
   Heading,
@@ -97,7 +96,7 @@ const Teams = () => {
             />
             <Box boxSize="xs" alignSelf="right" p={4}>
               <Heading
-                bgGradient="linear(to-r, #6D389C, #300B61)"
+                bgGradient="linear(to-l, #6D389C, #300B61)"
                 bgClip="text"
                 fontSize="3xl"
                 fontWeight="bold"
