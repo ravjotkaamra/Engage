@@ -1,4 +1,4 @@
-import { Avatar, AvatarBadge } from '@chakra-ui/react';
+import { Avatar } from '@chakra-ui/react';
 
 const TeamAvatar = (props) => {
   return (

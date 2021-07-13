@@ -13,6 +13,9 @@ import App from './App';
 
 import './index.css';
 
+// turn of console.log messages on production
+if (process.env.NODE_ENV !== 'development') console.log = () => {};
+
 // react-redux-firebase config
 const rrfConfig = {
   userProfile: 'users',

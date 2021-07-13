@@ -20,7 +20,10 @@ export const inviteToTeamMeet = (teamId, meetId, to_email) => {
   return async (dispatch, getState, { getFirestore }) => {
     const state = getState();
     const firestore = getFirestore();
-    const { email: from_email, displayName: from_name } = state.firebase.auth;
+    const { email: from_email, displayName: from_name } = {
+      ...state.firebase.auth,
+      ...state.firebase.profile,
+    };
 
     try {
       // check if email is correct

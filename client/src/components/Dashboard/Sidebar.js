@@ -1,6 +1,5 @@
 import React from 'react';
 import { FiMenu, FiHome, FiUser } from 'react-icons/fi';
-import { AiOutlineVideoCameraAdd } from 'react-icons/ai';
 import { SiMicrosoftteams } from 'react-icons/si';
 import { MdChat } from 'react-icons/md';
 import {
@@ -88,7 +87,7 @@ const Sidebar = ({ user, navSize, changeNavSize, ...rest }) => {
           mb={4}
         >
           <Flex mt={4} align="center">
-            <Avatar size="md" src={user.photoURL} />
+            <Avatar size="md" src={user.photoURL || user.avatarUrl} />
             <Flex
               flexDir="column"
               ml={4}
@@ -112,12 +111,6 @@ const Sidebar = ({ user, navSize, changeNavSize, ...rest }) => {
             title="Teams"
           />
 
-          <SideItem
-            navSize={navSize}
-            name="meet"
-            icon={AiOutlineVideoCameraAdd}
-            title="Meeting"
-          />
           <SideItem
             navSize={navSize}
             name="profile"

@@ -17,7 +17,7 @@ import ChatMessages from './ChatMessages';
 import { AiOutlineVideoCameraAdd } from 'react-icons/ai';
 import { useDispatch } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
-import { createNewTeamMeeting } from '../../../actions/meeting/private';
+import { createNewTeamMeeting } from '../../../actions/meeting/createMeet';
 
 const ChatBox = ({
   onChatHistoryOpen,

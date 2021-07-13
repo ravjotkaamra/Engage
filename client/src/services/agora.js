@@ -1,5 +1,5 @@
 import axios from 'axios';
-const baseUrl = '/api/rtctoken';
+const baseUrl = 'https://ms-engage.herokuapp.com/api/rtctoken';
 
 const fetchAgoraToken = async (channel, uid, isPublisher = true) => {
   const body = {

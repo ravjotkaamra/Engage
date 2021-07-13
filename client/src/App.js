@@ -9,7 +9,6 @@ import Skelton from './pages/Skelton';
 import Login from './pages/Authentication/Login';
 import Signup from './pages/Authentication/Signup';
 import ForgotPassword from './pages/Authentication/ForgotPassword';
-import ChatRoom from './pages/Chat/ChatRoom';
 import Conference from './pages/Video/Meeting/Conference';
 
 import Navbar from './components/Header/Navbar';
@@ -34,15 +33,14 @@ const App = () => {
         </Box>
       </Route>
       <Route path="/about" exact>
-        {/* <ChatRoom teamId="oSxBnr3cKzREXcmEtOgV" /> */}
-        <>
-          <ChatRoom />
-          {/* <ChatRoom teamId="oSxBnr3cKzREXcmEtOgV" /> */}
-          {/* <SidebarTemp /> */}
-          {/* <Side /> */}
-          {/* <Home /> */}
-        </>
+        <Box>
+          <Navbar authenticated={authenticated} />
+          <Box>
+            This project is made by Ravjot Singh under Microsoft Engage 2021
+          </Box>
+        </Box>
       </Route>
+      
       <PublicRoute path="/login" authenticated={authenticated}>
         <Login />
       </PublicRoute>

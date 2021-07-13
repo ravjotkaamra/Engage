@@ -1,7 +1,8 @@
-POST http://localhost:3001/rtctoken
+POST https://ms-engage.herokuapp.com/api/rtctoken
 Content-Type: application/json
 
 {
   "channel": "testing-agora",
-  "isPublisher": true
+  "isPublisher": true,
+  "uid": "ravjot"
 }

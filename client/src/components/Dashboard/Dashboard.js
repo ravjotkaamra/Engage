@@ -8,16 +8,14 @@ import {
   Drawer,
   DrawerOverlay,
   DrawerContent,
-  InputLeftElement,
-  InputGroup,
-  Input,
 } from '@chakra-ui/react';
 import { Box } from '@chakra-ui/layout';
-import { FiMenu, FiSearch } from 'react-icons/fi';
+import { FiMenu } from 'react-icons/fi';
 import Sidebar from './Sidebar';
 import DashRoutes from './DashRoutes';
 import { useFirestoreConnect } from 'react-redux-firebase';
 import { useSelector } from 'react-redux';
+import Searchbar from './Searchbar';
 
 const Dashboard = () => {
   const [navSize, changeNavSize] = useState('small');
@@ -64,21 +62,6 @@ const Dashboard = () => {
       storeAs: `meetings/${teamId}`,
     }))
   );
-
-  // useFirestoreConnect([
-  //   {
-  //     collectionGroup: 'meetings',
-  //     where: ['teamId', '==', 'gxGoKA2vyzZJnuM9uqyz'],
-  //     storeAs: 'meets',
-  //   },
-  // ]);
-  // const meetings = useSelector(({ firestore }) => {
-  //   return Object.entries(firestore.ordered)
-  //     .filter(([key, val]) => key.startsWith('meetings') && val.length !== 0)
-  //     .map(([key, val]) => val)
-  //     .reduce((flatten, arr) => [...flatten, ...arr]);
-  // });
-  // console.log('meetings  subcolections :>> ', meetings);
 
   return (
     <Box
@@ -130,24 +113,21 @@ const Dashboard = () => {
             icon={<FiMenu />}
             size="sm"
           />
-          <InputGroup w="96" display={{ base: 'none', md: 'flex' }}>
-            <InputLeftElement color="gray.500" children={<FiSearch />} />
-            <Input placeholder="Search for people or teams" />
-          </InputGroup>
+          <Searchbar />
 
           <Flex align="center">
             <Avatar
               ml="4"
               size="sm"
               name={user.displayName}
-              src={user.photoURL}
+              src={user.photoURL || user.avatarUrl}
               cursor="pointer"
             />
           </Flex>
         </Flex>
 
         <Box as="main" p="4">
-          <DashRoutes authenticated={true} />
+          <DashRoutes />
         </Box>
       </Box>
     </Box>

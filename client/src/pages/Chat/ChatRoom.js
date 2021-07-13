@@ -1,9 +1,16 @@
 import React from 'react';
-import { HStack, Flex, useDisclosure } from '@chakra-ui/react';
+import {
+  HStack,
+  Flex,
+  useDisclosure,
+  Box,
+  SkeletonCircle,
+  SkeletonText,
+} from '@chakra-ui/react';
 import ChatHistorySidebar from './ChatHistory/ChatHistorySidebar';
 import ChatBox from './ChatBox/ChatBox';
 import ChatHistoryDrawer from './ChatHistory/ChatHistoryDrawer';
-import { useFirestoreConnect } from 'react-redux-firebase';
+import { isLoaded, useFirestoreConnect } from 'react-redux-firebase';
 import { useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { createStandaloneToast } from '@chakra-ui/react';
@@ -47,8 +54,17 @@ const ChatTemp = () => {
 
   // if there is no friend with the currTeamId send an alert
   const currTeam = teamsObj ? teamsObj[currTeamId] : null;
+
+  if (!isLoaded(teamsObj)) {
+    return (
+      <Box m="auto" padding="6" boxShadow="lg" bg="white" boxSize="90vh">
+        <SkeletonCircle size="10" />
+        <SkeletonText mt="4" noOfLines={6} fontSize="xl" spacing="10" />
+      </Box>
+    );
+  }
   // wrong url path
-  if (currTeamId !== undefined && !currTeam) {
+  if (currTeamId && currTeam === null) {
     toast({
       title: 'Wrong Url',
       description: 'User does not exist, please check the url',

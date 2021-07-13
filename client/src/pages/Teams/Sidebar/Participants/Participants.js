@@ -14,11 +14,13 @@ const Participants = ({ memberIds }) => {
 
   return (
     <VStack spacing={6}>
-      <SearchParticipants />
+      <SearchParticipants memberIds={memberIds} users={users} />
+      <Divider />
       <List spacing={4} mt={6} w="full">
         {members?.map((member) => (
           <Participant
             key={member.id}
+            profileURL={`/profile/${member.id}`}
             email={member.email}
             name={member.displayName}
             photoURL={member.avatarUrl || member.photoURL}
