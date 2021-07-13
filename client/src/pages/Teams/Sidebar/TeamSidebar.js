@@ -14,11 +14,11 @@ import {
 } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import Meetings from './Meetings';
-import Participants from './Participants';
+import Meetings from './Meeting/Meetings';
+import Participants from './Participants/Participants';
 import DescriptionForm from './DescriptionForm';
 
-const ChatFiles = () => {
+const TeamSidebar = () => {
   const { teamId } = useParams();
   const team = useSelector(({ firestore }) => firestore.data.teams[teamId]);
   console.log('team :>> ', team);
@@ -66,4 +66,4 @@ const ChatFiles = () => {
   );
 };
 
-export default ChatFiles;
+export default TeamSidebar;

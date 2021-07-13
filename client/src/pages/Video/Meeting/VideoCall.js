@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import agoraServices from '../services/agora';
+import agoraServices from '../../../services/agora';
 import { Box } from '@chakra-ui/layout';
 import { createClient, createMicrophoneAndCameraTracks } from 'agora-rtc-react';
 import Controls from './Controls';
 import Videos from './Videos';
 import { useSelector } from 'react-redux';
-import MeetChatDrawer from '../pages/Video/Chat/MeetChatDrawer';
+import MeetChatDrawer from '../Chat/MeetChatDrawer';
 import { useDisclosure } from '@chakra-ui/react';
 import { useFirestoreConnect } from 'react-redux-firebase';
 import { useParams } from 'react-router-dom';

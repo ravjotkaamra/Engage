@@ -14,9 +14,9 @@ import {
 } from '@chakra-ui/react';
 
 import TeamCard from './TeamCard';
-import JoinOrCreateBtn from './JoinOrCreateBtn';
+import JoinOrCreateBtn from '../JoinOrCreate/JoinOrCreateBtn';
 import { useSelector } from 'react-redux';
-import TeamHomeImage from '../../assets/team-home.svg';
+import TeamHomeImage from '../../../assets/team-home.svg';
 
 const Teams = () => {
   const teams = useSelector(({ firestore }) => {

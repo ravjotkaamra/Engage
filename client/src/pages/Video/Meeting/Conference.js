@@ -2,11 +2,11 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { isEmpty, isLoaded, useFirestoreConnect } from 'react-redux-firebase';
 import { useHistory, useParams } from 'react-router-dom';
-import Skelton from './Skelton';
+import Skelton from '../../Skelton';
 import { Box, Center, createStandaloneToast } from '@chakra-ui/react';
-import theme from '../theme';
-import VideoCall from '../components/VideoCall';
-import InviteBtn from '../components/InviteBtn';
+import theme from '../../../theme';
+import VideoCall from './VideoCall';
+import InviteBtn from './InviteBtn';
 
 const Conference = () => {
   const { meetId, teamId } = useParams();

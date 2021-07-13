@@ -3,7 +3,7 @@ import { Box, Divider, VStack, List, Image, Text } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
 import MeetingLink from './MeetingLink';
 import { useParams } from 'react-router-dom';
-import MeetImage from '../../../assets/meet.svg';
+import MeetImage from '../../../../assets/meet.svg';
 
 const Meetings = ({ memberIds }) => {
   const { teamId } = useParams();

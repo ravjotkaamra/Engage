@@ -8,61 +8,47 @@ import {
   ModalBody,
   ModalFooter,
   Text,
-  Textarea,
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
-import { AiOutlineFolderAdd } from 'react-icons/ai';
+import { RiTeamLine } from 'react-icons/ri';
 import { useDispatch } from 'react-redux';
-import { createNewTeam } from '../../actions/teams/newTeamAction';
+import { joinTeam } from '../../../actions/teams/joinTeamAction';
 
-const CreateTeamForm = ({ onClose }) => {
-  const [teamName, setTeamName] = useState('');
-  const [description, setDescription] = useState('');
+const JoinTeamForm = ({ onClose }) => {
+  const [teamId, setTeamId] = useState('');
 
   // for dispatching actions to the redux
   const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(createNewTeam(teamName, description));
-    setTeamName('');
-    setDescription('');
+    dispatch(joinTeam(teamId));
+    setTeamId('');
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <ModalBody pb={6}>
         <FormControl>
-          <FormLabel>Team Name</FormLabel>
+          <FormLabel>Invite Code</FormLabel>
           <Input
             type="text"
-            value={teamName}
-            placeholder="Microsoft Engage Team"
+            value={teamId}
+            placeholder="Enter code"
             required
-            minLength="3"
             focusBorderColor="brand.500"
-            onChange={(e) => setTeamName(e.target.value)}
+            onChange={(e) => setTeamId(e.target.value)}
           />
         </FormControl>
-        <FormControl>
-          <FormLabel>Description</FormLabel>
-          <Textarea
-            value={description}
-            placeholder="Enter team's information here (optional)"
-            focusBorderColor="brand.500"
-            onChange={(e) => setDescription(e.target.value)}
-          />
-        </FormControl>
-
         <Text p={2} color="gray.500" fontSize="sm">
-          Bring everyone together and get to work!
+          Got a code to join a team? Enter it above.
         </Text>
       </ModalBody>
 
       <ModalFooter>
         <ButtonGroup spacing="5">
           <Button
-            leftIcon={<Icon as={AiOutlineFolderAdd} boxSize={4} />}
+            leftIcon={<Icon as={RiTeamLine} boxSize={4} />}
             type="submit"
             bg={'brand.600'}
             color={'white'}
@@ -70,7 +56,7 @@ const CreateTeamForm = ({ onClose }) => {
               bg: '#1d3557',
             }}
           >
-            Create
+            Join
           </Button>
 
           <Button colorScheme="brand" variant="outline" onClick={onClose}>
@@ -82,4 +68,4 @@ const CreateTeamForm = ({ onClose }) => {
   );
 };
 
-export default CreateTeamForm;
+export default JoinTeamForm;

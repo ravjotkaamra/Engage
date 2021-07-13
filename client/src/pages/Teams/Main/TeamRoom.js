@@ -2,13 +2,13 @@ import { Flex, HStack, useDisclosure } from '@chakra-ui/react';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import JoinTeamAlert from './JoinTeamAlert';
+import JoinTeamAlert from '../JoinOrCreate/JoinTeamAlert';
 import { isLoaded, useFirestoreConnect } from 'react-redux-firebase';
-import ChatHistorySidebar from '../Chat/ChatHistory/ChatHistorySidebar';
-import ChatHistoryDrawer from '../Chat/ChatHistory/ChatHistoryDrawer';
-import ChatBox from '../Chat/ChatBox/ChatBox';
-import ChatFilesDrawer from './ChatFiles/ChatFilesDrawer';
-import ChatFiles from './ChatFiles/ChatFiles';
+import ChatHistorySidebar from '../../Chat/ChatHistory/ChatHistorySidebar';
+import ChatHistoryDrawer from '../../Chat/ChatHistory/ChatHistoryDrawer';
+import ChatBox from '../../Chat/ChatBox/ChatBox';
+import ChatFilesDrawer from '../Sidebar/SidebarDrawer';
+import ChatFiles from '../Sidebar/TeamSidebar';
 
 const Team = () => {
   const { teamId } = useParams();

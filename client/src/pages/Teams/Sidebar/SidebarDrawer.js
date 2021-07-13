@@ -4,9 +4,9 @@ import {
   DrawerContent,
   DrawerOverlay,
 } from '@chakra-ui/react';
-import ChatFiles from './ChatFiles';
+import ChatFiles from './TeamSidebar';
 
-const ChatFilesDrawer = ({ isOpen, onClose }) => {
+const SidebarDrawer = ({ isOpen, onClose }) => {
   return (
     <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
       <DrawerOverlay>
@@ -19,4 +19,4 @@ const ChatFilesDrawer = ({ isOpen, onClose }) => {
   );
 };
 
-export default ChatFilesDrawer;
+export default SidebarDrawer;

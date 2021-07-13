@@ -2,8 +2,8 @@ import { Switch } from 'react-router';
 import React from 'react';
 import Meet from '../../pages/Meet';
 import { Route } from 'react-router-dom';
-import Teams from '../../pages/Teams/Teams';
-import TeamRoom from '../../pages/Teams/TeamRoom';
+import Teams from '../../pages/Teams/Main/Teams';
+import TeamRoom from '../../pages/Teams/Main/TeamRoom';
 import ChatRoom from '../../pages/Chat/ChatRoom';
 import Profile from '../../pages/Profile/Profile';
 

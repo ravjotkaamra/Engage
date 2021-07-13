@@ -18,7 +18,7 @@ import { EmailIcon } from '@chakra-ui/icons';
 import { BsFillPlusSquareFill } from 'react-icons/bs';
 import { useFirestoreConnect } from 'react-redux-firebase';
 import { useDispatch } from 'react-redux';
-import { inviteToTeamMeet } from '../actions/meeting/inviteTeamMeet';
+import { inviteToTeamMeet } from '../../../actions/meeting/inviteTeamMeet';
 
 const InviteBtn = ({ teamId, meetId }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();

@@ -19,7 +19,7 @@ import {
 } from '@chakra-ui/react';
 import { AiOutlineFolderAdd } from 'react-icons/ai';
 import { MdGroupAdd } from 'react-icons/md';
-import { createNewTeam } from '../../actions/teams/newTeamAction';
+import { createNewTeam } from '../../../actions/teams/newTeamAction';
 
 const CreateBtn = ({ meetId }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();

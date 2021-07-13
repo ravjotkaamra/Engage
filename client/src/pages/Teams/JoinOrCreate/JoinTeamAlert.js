@@ -11,7 +11,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { useDispatch } from 'react-redux';
-import { joinTeam } from '../../actions/teams/joinTeamAction';
+import { joinTeam } from '../../../actions/teams/joinTeamAction';
 import { useHistory } from 'react-router-dom';
 
 const JoinTeamAlert = ({ teamId }) => {
