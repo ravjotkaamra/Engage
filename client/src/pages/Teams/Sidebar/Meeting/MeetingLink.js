@@ -4,7 +4,8 @@ import { useHistory } from 'react-router-dom';
 const MeetingLink = ({ meeting }) => {
   const history = useHistory();
   const fireBaseTime = new Date(
-    meeting.createdAt.seconds * 1000 + meeting.createdAt.nanoseconds / 1000000
+    meeting?.createdAt?.seconds * 1000 +
+      meeting?.createdAt?.nanoseconds / 1000000
   );
   const date = fireBaseTime.toDateString();
   const time = fireBaseTime.toLocaleTimeString();

@@ -51,8 +51,8 @@ const Conference = () => {
 
   // check if the user is invited to the current meeting
   const isInvited =
-    myTeams.find((tid) => tid === teamId) ||
-    meeting.invitees.find((inviteeId) => inviteeId === loggedInUid);
+    myTeams?.find((tid) => tid === teamId) ||
+    meeting?.invitees?.find((inviteeId) => inviteeId === loggedInUid);
 
   if (!isInvited) {
     history.push('/teams');
