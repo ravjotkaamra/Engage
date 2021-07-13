@@ -26,9 +26,11 @@ const Teams = () => {
     if (!teams) {
       return null;
     }
-    return Object.entries(teams).map(([key, val]) => val);
+    return Object.entries(teams)
+      .map(([teamId, team]) => team)
+      .filter((team) => team.isPrivate === false);
   });
-
+  console.log('teams :>> ', teams);
   console.log('teams home page :>> ', teams);
   return (
     <Flex
@@ -64,7 +66,7 @@ const Teams = () => {
         mt={4}
         mx={5}
       >
-        {teams ? (
+        {teams && teams.length ? (
           <SimpleGrid
             columns={{ base: 1, sm: 2, md: 3, lg: 4 }}
             alignItems="center"

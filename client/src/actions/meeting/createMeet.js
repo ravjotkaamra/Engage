@@ -1,5 +1,6 @@
 import { createStandaloneToast } from '@chakra-ui/react';
 import theme from '../../theme';
+import { sendMessageToTeam } from '../teams/sendTextAction';
 const toast = createStandaloneToast({ theme });
 
 let toastObj = {
@@ -39,6 +40,12 @@ export const createNewTeamMeeting = (teamId, history) => {
         .add(meeting);
 
       history.push(`/join/meet/${response.id}/teams/${teamId}`);
+      dispatch(
+        sendMessageToTeam(
+          teamId,
+          `I have created a new meeting: ${window.location.href}`
+        )
+      );
       // send a notification alert on to the screen
       toast({
         title: 'Meeting created',
