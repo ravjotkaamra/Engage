@@ -8,7 +8,6 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(sslRedirect());
-app.use(express.static('build'));
 
 app.post('/api/rtctoken', (req, res) => {
   const appID = process.env.AGORA_APP_ID;
